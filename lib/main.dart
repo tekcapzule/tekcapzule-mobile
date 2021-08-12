@@ -9,14 +9,14 @@ import 'package:tek_capsule/locale/language_ui.dart';
 import 'package:tek_capsule/locale/locales.dart';
 import 'package:tek_capsule/routes/routes.dart';
 import 'package:tek_capsule/theme_cubit.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   WidgetsFlutterBinding.ensureInitialized();
-  final prefs = await SharedPreferences.getInstance();
-  bool? isDark = prefs.getBool('theme');
+  // final prefs = await SharedPreferences.getInstance();
+  // bool? isDark = prefs.getBool('theme');
   runApp(MultiBlocProvider(providers: [
     // BlocProvider(create: (context) => LanguageCubit()),
     BlocProvider(create: (context) => ThemeCubit(true)),
