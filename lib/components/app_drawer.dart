@@ -24,6 +24,7 @@ class AppDrawer extends StatelessWidget {
     var theme = Theme.of(context);
     List<DrawerItems> _drawerItems = [
       DrawerItems(Icons.explore, 'MY FEED'),
+      DrawerItems(Icons.bookmark_added, 'BOOKMARK'),
       DrawerItems(Icons.speaker_notes, 'TRENDING'),
       DrawerItems(Icons.book_rounded, 'EDITORS PICK'),
     ];
