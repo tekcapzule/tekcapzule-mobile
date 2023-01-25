@@ -45,9 +45,9 @@ Map<String, String> english() {
     'surprised': 'Surprised',
     'angry': 'Angry',
     'close': 'Close',
-    'news_headline': 'NGC Announces Candidates for USA Cricket Board Election.',
+    'news_headline': 'So, You want to be a Coder?',
     'news_description':
-        'There was considerable interest in these positions, particularly for the individual Director role, and that the constitution requires that no more than five candidates be put forward for each position. As such, the NGC sought and followed indeppendant legal advice on how best to exercise its duty to determine which five applicants to put forward.',
+        'Fuit igitur in re prorsus Directoris munus praecipue singularis et amplius quinis constitutionis exigit cuiusque candidati ad propositum. Talis in Ursa sui quaerebant secuti officium exercere consuluntur uter melius quam quinque audit proferuntur.',
     'reacted': 'reacted',
     'comments': 'Comments',
     'the_time_express': 'The Times Express',
