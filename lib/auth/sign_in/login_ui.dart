@@ -1,8 +1,11 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/components/custom_button.dart';
 import 'package:tek_capsule/components/entry_field.dart';
+import 'package:tek_capsule/config/cognito_configurations.dart';
 import 'package:tek_capsule/routes/routes.dart';
 import 'package:tek_capsule/locale/locales.dart';
 
@@ -12,12 +15,51 @@ class SignInUI extends StatefulWidget {
 }
 
 class _SignInUIState extends State<SignInUI> {
+
+  final emailInputController = TextEditingController();
+  final passwordInputController = TextEditingController();
   // @override
   // void initState() {
   //   super.initState();
   //   Future.delayed(
   //       Duration(seconds: 6), () => BuyThisApp.showSubscribeDialog(context));
   // }
+
+@override
+void initState() {
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_)=> configureAmplify());
+}
+
+  Future<void> configureAmplify() async {
+  try {
+    final authPlugin = AmplifyAuthCognito();
+    await Amplify.addPlugin(authPlugin);
+    await Amplify.configure(cognito_configurations);  
+    await Amplify.Auth.signOut();  
+  } on Exception catch (e) {
+    safePrint('An error occurred while configuring Amplify: $e');
+  }
+}
+
+Future<SignInResult> signInUser(String email, String password) async {
+  try {    
+    return await Amplify.Auth.signIn(
+      username: email,
+      password: password,
+    );
+  } on AuthException catch (e) {
+    safePrint(e.message);
+    return Future.value(new SignInResult(isSignedIn: false));
+  }
+}
+
+  @override
+  void dispose() {
+    emailInputController.dispose();
+    passwordInputController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +93,16 @@ class _SignInUIState extends State<SignInUI> {
                               style: Theme.of(context).textTheme.subtitle1),),
                         
                           EntryField(
-                            label: getTranslationOf('phone_number'),
-                            hint: getTranslationOf('enter_phone_number'),
+                            label: getTranslationOf('email'),
+                            hint: getTranslationOf('enter_email'),
+                              textController: emailInputController,
+                              hideText: false,
+                          ),
+                          EntryField(
+                            label: getTranslationOf('password'),
+                            hint: getTranslationOf('enter_password'),
+                            textController: passwordInputController,
+                            hideText: true,
                           ),
                           SizedBox(
                             height: 16,
@@ -60,7 +110,17 @@ class _SignInUIState extends State<SignInUI> {
                           CustomButton(
                             textColor: Theme.of(context).backgroundColor,
                             onTap: () {
-                              Navigator.pushNamed(context, PageRoutes.signUp);
+                              final result = this.signInUser(emailInputController.text, passwordInputController.text);
+                              result.then((value) => {
+                                if(value.isSignedIn){
+                                  Navigator.pushNamed(context, PageRoutes.news)
+                                }else{
+                                  AlertDialog(
+                                  title: Text("TekCapsule Alert"),
+                                  content: Text("User Not Authenticated."),
+                                )
+                                }
+                              });
                             },
                           ),
                           SizedBox(

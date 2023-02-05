@@ -1,8 +1,10 @@
 Map<String, String> english() {
   return {
     'sign_in_now': 'Sign in Now',
-    'phone_number': 'Phone Number',
-    'enter_phone_number': 'Enter Phone Number',
+    'email': 'Email',
+    'enter_email': 'Enter Email',
+    'password': 'Password',
+    'enter_password': 'Enter password',
     'or_continue_with': 'Or Continue with',
     'facebook': 'Facebook',
     'google': 'Google',

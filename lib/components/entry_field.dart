@@ -5,10 +5,14 @@ class EntryField extends StatelessWidget {
     Key? key,
     this.label,
     this.hint,
+    this.textController,
+    this.hideText = false,
   }) : super(key: key);
 
   final String? label;
   final String? hint;
+  final TextEditingController? textController;
+  final bool hideText;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +34,13 @@ class EntryField extends StatelessWidget {
                 hintStyle: Theme.of(context).textTheme.subtitle1!.copyWith(
                       fontSize: 14,
                     )),
+                    obscureText: hideText,
+                    controller: textController
           ),
         ],
       ),
     );
   }
 }
+
+
