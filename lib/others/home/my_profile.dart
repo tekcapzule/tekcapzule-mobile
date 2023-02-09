@@ -1,3 +1,4 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/Animations/faded_scale_animation.dart';
 import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:flutter/material.dart';
@@ -5,18 +6,33 @@ import 'package:tek_capsule/components/custom_button.dart';
 import 'package:tek_capsule/routes/routes.dart';
 import 'package:tek_capsule/locale/locales.dart';
 
-class MyProfile extends StatelessWidget {
+class MyProfile extends StatefulWidget {
+  
+  @override
+  State<MyProfile> createState() => _MyProfileState();
+}
+
+class _MyProfileState extends State<MyProfile> {
+
+  Future<void> signOutCurrentUser() async {
+  try {
+    await Amplify.Auth.signOut();
+  } on AuthException catch (e) {
+    print(e.message);
+  }
+}
+  
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: theme.focusColor),
+        iconTheme: IconThemeData(color: theme.primaryColor),
       ),
       body: FadedSlideAnimation(
         SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - 75, 
             child: Column(
               children: [
                 Stack(
@@ -88,9 +104,7 @@ class MyProfile extends StatelessWidget {
                   ],
                 ),
                 Expanded(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height / 1.7,
-                    padding: EdgeInsets.only(top: 4),
+                  child: Container( 
                     decoration: BoxDecoration(
                       color: Theme.of(context).backgroundColor,
                       borderRadius: BorderRadius.vertical(
@@ -144,7 +158,8 @@ class MyProfile extends StatelessWidget {
                             text: context
                                 .getTranslationOf('logout')!
                                 .toUpperCase(),
-                            onTap: () {
+                            onTap: () async{
+                              await signOutCurrentUser();
                               Navigator.pushNamed(context, PageRoutes.signIn);
                             },
                           ),

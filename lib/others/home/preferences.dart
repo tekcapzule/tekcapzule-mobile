@@ -94,9 +94,16 @@ class _PreferencesState extends State<Preferences> {
                       'Samantha Smith',
                       style: theme.textTheme.headline6,
                     ),
-                    Text(
-                      getTranslationOf('my_profile')!,
-                      style: theme.textTheme.subtitle2,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        getTranslationOf('my_profile')!,
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
                     ),
                   ],
                 ),

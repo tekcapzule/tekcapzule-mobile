@@ -1,3 +1,5 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,82 @@ class RegisterUI extends StatefulWidget {
 }
 
 class _RegisterUIState extends State<RegisterUI> {
+  List<String> gender = ["Male", "Female", "Others"];
+  Object? selectGenderValue;
+
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final pwdController = TextEditingController();
+  final dobController = TextEditingController();
+  final nameController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    phoneController.dispose();
+    pwdController.dispose();
+    dobController.dispose();
+    nameController.dispose();
+    super.dispose();
+  }
+
+// ignore: non_constant_identifier_names
+  Row add_radio_button(int btnValue, String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Radio(
+          activeColor: Theme.of(context).primaryColor,
+          value: gender[btnValue],
+          groupValue: selectGenderValue,
+          onChanged: (value) {
+            setState(() {
+              print(value);
+              selectGenderValue = value;
+            });
+          },
+        ),
+        Text(title)
+      ],
+    );
+  }
+
+  Future<void> signUpUser(
+    String name,
+    String email,
+    String password,
+    String phone,
+    String dob,
+  ) async {
+    try {
+      final userAttributes = <CognitoUserAttributeKey, String>{
+        CognitoUserAttributeKey.name: name,
+        CognitoUserAttributeKey.email: email,
+        CognitoUserAttributeKey.birthdate: dob,
+        CognitoUserAttributeKey.phoneNumber: '+91$phone',
+        CognitoUserAttributeKey.gender: selectGenderValue.toString(),
+        CognitoUserAttributeKey.givenName: name,
+        CognitoUserAttributeKey.preferredUsername:email  
+        // additional attributes as needed
+      };
+      final result = await Amplify.Auth.signUp(
+        username: email,
+        password: password,
+        options: CognitoSignUpOptions(userAttributes: userAttributes),
+      );
+      print(result);
+      if (result.isSignUpComplete) {
+        Navigator.pushNamed(
+          context,
+          PageRoutes.verification,
+          arguments: email,
+        );
+      }
+    } on AuthException catch (e) {
+      safePrint(e.message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -30,8 +108,7 @@ class _RegisterUIState extends State<RegisterUI> {
           children: [
             Container(
               color: Colors.white,
-              child: Container(
-                child: Image.asset("assets/vct_register.png")),
+              child: Container(child: Image.asset("assets/vct_register.png")),
             ),
             SizedBox(
               height: 1,
@@ -80,17 +157,56 @@ class _RegisterUIState extends State<RegisterUI> {
                     EntryField(
                       label: getTranslationOf('full_name'),
                       hint: getTranslationOf('enter_full_name'),
+                      textController: nameController,
                     ),
                     EntryField(
                       label: getTranslationOf('email_address'),
                       hint: getTranslationOf('enter_email_address'),
+                      textController: emailController,
                     ),
                     EntryField(
                       label: getTranslationOf('phone_number'),
                       hint: getTranslationOf('enter_phone_number'),
+                      textController: phoneController,
+                    ),
+                    EntryField(
+                      label: getTranslationOf('password'),
+                      hint: getTranslationOf('enter_password'),
+                      textController: pwdController,
+                      hideText: true,
+                    ),
+                    EntryField(
+                      label: '',
+                      hint: 'Date of birth (dd/MM/YYYY)',
+                      textController: dobController,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(15, 15, 50, 00),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20.0),
+                                child: Text(
+                                  'Gender',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              add_radio_button(0, 'Male'),
+                              add_radio_button(1, 'Female'),
+                              add_radio_button(2, 'Others'),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
-                      height: 24,
+                      height: 15,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(15),
@@ -103,7 +219,12 @@ class _RegisterUIState extends State<RegisterUI> {
                     CustomButton(
                       textColor: Theme.of(context).backgroundColor,
                       onTap: () {
-                        Navigator.pushNamed(context, PageRoutes.verification);
+                        signUpUser(
+                            nameController.text,
+                            emailController.text,
+                            pwdController.text,
+                            phoneController.text,
+                            dobController.text);
                       },
                     ),
                   ],

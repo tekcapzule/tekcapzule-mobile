@@ -1,3 +1,4 @@
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,27 @@ class VerificationUI extends StatefulWidget {
 }
 
 class _VerificationUIState extends State<VerificationUI> {
+
+  final otpInputController = TextEditingController();
+
+  Future<void> confirmUser(String userName) async {
+  try {
+    final result = await Amplify.Auth.confirmSignUp(
+      username: userName,
+      confirmationCode: otpInputController.text
+    );
+    if(result.isSignUpComplete) {
+      Navigator.pushNamed(context, PageRoutes.news);
+    }
+  } on AuthException catch (e) {
+    safePrint(e.message);
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var routeArgs = ModalRoute.of(context)!.settings.arguments as String;
     return FadedSlideAnimation(
       Scaffold(
         body: Column(
@@ -62,6 +81,7 @@ class _VerificationUIState extends State<VerificationUI> {
                       ),
                     ),
                     EntryField(
+                      textController: otpInputController,
                       label: getTranslationOf('enter_code'),
                       hint: getTranslationOf('enter_six'),
                     ),
@@ -70,7 +90,7 @@ class _VerificationUIState extends State<VerificationUI> {
                       textColor: Theme.of(context).backgroundColor,
                       text: getTranslationOf('get_started'),
                       onTap: () {
-                        Navigator.pushNamed(context, PageRoutes.news);
+                        confirmUser(routeArgs.toString());
                       },
                     ),
                     Spacer(),

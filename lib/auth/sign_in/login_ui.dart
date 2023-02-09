@@ -107,6 +107,22 @@ Future<SignInResult> signInUser(String email, String password) async {
                           SizedBox(
                             height: 16,
                           ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, PageRoutes.signUp);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(right:15),
+                              child: Text(
+                                'New User?',                            
+                                textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
                           CustomButton(
                             textColor: Theme.of(context).backgroundColor,
                             onTap: () {
