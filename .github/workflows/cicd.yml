@@ -22,6 +22,5 @@ jobs:
           flutter-version: '2.0.5'
       - run: flutter upgrade
       - run: flutter pub get
-      - run: flutter build apk
-      - run: flutter build appbundle
+      - run: flutter build apk --debug
 
