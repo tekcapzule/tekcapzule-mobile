@@ -21,6 +21,7 @@ dependencies:
   blur: ^2.0.0
   amplify_flutter: ^0.6.11
   amplify_auth_cognito: ^0.6.11
+  rxdart: ^0.27.7
 
 
 
