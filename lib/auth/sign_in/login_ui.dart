@@ -3,11 +3,13 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tek_capsule/bloc/widget/root_injector_widget.dart';
 import 'package:tek_capsule/components/custom_button.dart';
 import 'package:tek_capsule/components/entry_field.dart';
 import 'package:tek_capsule/config/cognito_configurations.dart';
 import 'package:tek_capsule/routes/routes.dart';
 import 'package:tek_capsule/locale/locales.dart';
+import 'package:tek_capsule/service/auth_service/auth_service.dart';
 
 class SignInUI extends StatefulWidget {
   @override
@@ -28,15 +30,14 @@ class _SignInUIState extends State<SignInUI> {
 @override
 void initState() {
   super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_)=> configureAmplify());
+  WidgetsBinding.instance.addPostFrameCallback((_)=> configureAwsCognito());
 }
 
-  Future<void> configureAmplify() async {
+  Future<void> configureAwsCognito() async {
   try {
-    final authPlugin = AmplifyAuthCognito();
-    await Amplify.addPlugin(authPlugin);
-    await Amplify.configure(cognito_configurations);  
-    await Amplify.Auth.signOut();  
+    final authService = await AuthenticationService.init();
+    RootInjectorWidget.of(context)!.authService = authService;
+    await authService.signOutUser();  
   } on Exception catch (e) {
     safePrint('An error occurred while configuring Amplify: $e');
   }
@@ -126,8 +127,8 @@ Future<SignInResult> signInUser(String email, String password) async {
                           CustomButton(
                             textColor: Theme.of(context).backgroundColor,
                             onTap: () {
-                              final result = this.signInUser(emailInputController.text, passwordInputController.text);
-                              result.then((value) => {
+                              final result = RootInjectorWidget.of(context)!.authService.signInUser(emailInputController.text, passwordInputController.text);
+                              result!.then((value) => {
                                 if(value.isSignedIn){
                                   Navigator.pushNamed(context, PageRoutes.news)
                                 }else{
