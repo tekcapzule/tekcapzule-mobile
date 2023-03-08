@@ -2,6 +2,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
+import 'package:tek_capsule/bloc/widget/root_injector_widget.dart';
 import 'package:tek_capsule/components/custom_button.dart';
 import 'package:tek_capsule/components/entry_field.dart';
 import 'package:tek_capsule/routes/routes.dart';
@@ -13,22 +14,7 @@ class VerificationUI extends StatefulWidget {
 }
 
 class _VerificationUIState extends State<VerificationUI> {
-
   final otpInputController = TextEditingController();
-
-  Future<void> confirmUser(String userName) async {
-  try {
-    final result = await Amplify.Auth.confirmSignUp(
-      username: userName,
-      confirmationCode: otpInputController.text
-    );
-    if(result.isSignUpComplete) {
-      Navigator.pushNamed(context, PageRoutes.news);
-    }
-  } on AuthException catch (e) {
-    safePrint(e.message);
-  }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +75,14 @@ class _VerificationUIState extends State<VerificationUI> {
                     CustomButton(
                       textColor: Theme.of(context).backgroundColor,
                       text: getTranslationOf('get_started'),
-                      onTap: () {
-                        confirmUser(routeArgs.toString());
+                      onTap: () async {
+                        final result = await RootInjectorWidget.of(context)!
+                            .authService
+                            .confirmUser(
+                                routeArgs.toString(), otpInputController.text);
+                        if (result!.isSignUpComplete) {
+                          Navigator.pushNamed(context, PageRoutes.news);
+                        }
                       },
                     ),
                     Spacer(),

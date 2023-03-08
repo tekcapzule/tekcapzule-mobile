@@ -3,6 +3,7 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tek_capsule/bloc/widget/root_injector_widget.dart';
 import 'package:tek_capsule/components/custom_button.dart';
 import 'package:tek_capsule/components/entry_field.dart';
 import 'package:tek_capsule/routes/routes.dart';
@@ -69,7 +70,7 @@ class _RegisterUIState extends State<RegisterUI> {
         CognitoUserAttributeKey.phoneNumber: '+91$phone',
         CognitoUserAttributeKey.gender: selectGenderValue.toString(),
         CognitoUserAttributeKey.givenName: name,
-        CognitoUserAttributeKey.preferredUsername:email  
+        CognitoUserAttributeKey.preferredUsername: email
         // additional attributes as needed
       };
       final result = await Amplify.Auth.signUp(
@@ -218,13 +219,23 @@ class _RegisterUIState extends State<RegisterUI> {
                     ),
                     CustomButton(
                       textColor: Theme.of(context).backgroundColor,
-                      onTap: () {
-                        signUpUser(
-                            nameController.text,
-                            emailController.text,
-                            pwdController.text,
-                            phoneController.text,
-                            dobController.text);
+                      onTap: () async {
+                        final result = await RootInjectorWidget.of(context)!
+                            .authService
+                            .signUpUser(
+                                nameController.text,
+                                emailController.text,
+                                pwdController.text,
+                                phoneController.text,
+                                dobController.text,
+                                selectGenderValue.toString());
+                        if (result!.isSignUpComplete) {
+                          Navigator.pushNamed(
+                            context,
+                            PageRoutes.verification,
+                            arguments: emailController.text,
+                          );
+                        }
                       },
                     ),
                   ],

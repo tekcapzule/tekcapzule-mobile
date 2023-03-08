@@ -2,26 +2,18 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/Animations/faded_scale_animation.dart';
 import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:flutter/material.dart';
+import 'package:tek_capsule/bloc/widget/root_injector_widget.dart';
 import 'package:tek_capsule/components/custom_button.dart';
 import 'package:tek_capsule/routes/routes.dart';
 import 'package:tek_capsule/locale/locales.dart';
 
 class MyProfile extends StatefulWidget {
-  
   @override
   State<MyProfile> createState() => _MyProfileState();
 }
 
 class _MyProfileState extends State<MyProfile> {
 
-  Future<void> signOutCurrentUser() async {
-  try {
-    await Amplify.Auth.signOut();
-  } on AuthException catch (e) {
-    print(e.message);
-  }
-}
-  
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -32,7 +24,7 @@ class _MyProfileState extends State<MyProfile> {
       body: FadedSlideAnimation(
         SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height - 75, 
+            height: MediaQuery.of(context).size.height - 75,
             child: Column(
               children: [
                 Stack(
@@ -104,7 +96,7 @@ class _MyProfileState extends State<MyProfile> {
                   ],
                 ),
                 Expanded(
-                  child: Container( 
+                  child: Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).backgroundColor,
                       borderRadius: BorderRadius.vertical(
@@ -158,8 +150,10 @@ class _MyProfileState extends State<MyProfile> {
                             text: context
                                 .getTranslationOf('logout')!
                                 .toUpperCase(),
-                            onTap: () async{
-                              await signOutCurrentUser();
+                            onTap: () async {
+                              await RootInjectorWidget.of(context)!
+                                  .authService
+                                  .signOutUser();
                               Navigator.pushNamed(context, PageRoutes.signIn);
                             },
                           ),

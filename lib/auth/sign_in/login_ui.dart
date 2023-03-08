@@ -43,18 +43,6 @@ void initState() {
   }
 }
 
-Future<SignInResult> signInUser(String email, String password) async {
-  try {    
-    return await Amplify.Auth.signIn(
-      username: email,
-      password: password,
-    );
-  } on AuthException catch (e) {
-    safePrint(e.message);
-    return Future.value(new SignInResult(isSignedIn: false));
-  }
-}
-
   @override
   void dispose() {
     emailInputController.dispose();

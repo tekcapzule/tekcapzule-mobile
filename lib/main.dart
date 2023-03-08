@@ -23,7 +23,11 @@ void main() async {
   //   // BlocProvider(create: (context) => LanguageCubit()),
   //   BlocProvider(create: (context) => ThemeCubit(true)),
   // ], child: Phoenix(child: MyApp())));
-  final injectorWidget = RootInjectorWidget(child : MyApp());
+  final injectorWidget = RootInjectorWidget(
+      child: MultiBlocProvider(providers: [
+    BlocProvider(create: (context) => LanguageCubit()),
+    BlocProvider(create: (context) => ThemeCubit(true)),
+  ], child: Phoenix(child: MyApp())));
   injectorWidget.init();
   runApp(injectorWidget);
 }
@@ -33,16 +37,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: [
-              const AppLocalizationsDelegate(),
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            theme: appTheme,
-            home: SignInUI(),
-            routes: PageRoutes().routes(),
-          );
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: [
+        const AppLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      theme: appTheme,
+      home: SignInUI(),
+      routes: PageRoutes().routes(),
+    );
   }
 }

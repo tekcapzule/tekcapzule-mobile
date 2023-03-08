@@ -4,6 +4,12 @@ abstract class BaseAuthenticationService {
   Future<SignOutResult?>? signOutUser();
   Future<SignUpResult?>? confirmUser(String userName, String oneTimecode);
   Future<SignInResult>? signInUser(String userName, String password);
-  Future<bool> isUserAuthenticated();
-  Future<String> getAuthorization();
+  Future<SignUpResult?>? signUpUser(
+    String name,
+    String email,
+    String password,
+    String phone,
+    String dob,
+    String gender
+  );
 }
