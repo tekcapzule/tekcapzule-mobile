@@ -2,7 +2,7 @@ Map<String, String> english() {
   return {
     'sign_in_now': 'Sign in Now',
     'phone_number': 'Phone Number',
-    'enter_phone_number': 'Enter Phone Number',
+    'enter_phone_number': 'Enter Phone Number (10 digits)',
     'email': 'Email',
     'enter_email': 'Enter Email',
     'password': 'Password',
