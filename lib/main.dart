@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:tek_capsule/auth/sign_in/login_ui.dart';
 import 'package:tek_capsule/bloc/widget/root_injector_widget.dart';
+import 'package:tek_capsule/infrastructure/network/http_client/http_client_override.dart';
 import 'package:tek_capsule/language_cubit.dart';
 import 'package:tek_capsule/locale/language_ui.dart';
 import 'package:tek_capsule/locale/locales.dart';
@@ -17,6 +20,7 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = HttpClientOverride();
   // final prefs = await SharedPreferences.getInstance();
   // bool? isDark = prefs.getBool('theme');
   // runApp(MultiBlocProvider(providers: [

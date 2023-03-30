@@ -22,6 +22,7 @@ dependencies:
   amplify_flutter: ^0.6.11
   amplify_auth_cognito: ^0.6.11
   rxdart: ^0.27.7
+  http: ^0.13.5
 
 
 

@@ -1,7 +1,7 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:tek_capsule/service/auth_service/aws_cognito_service.dart';
-import 'package:tek_capsule/service/auth_service/base_auth_service.dart';
+import 'package:tek_capsule/infrastructure/service/auth_service/aws_cognito_service.dart';
+import 'package:tek_capsule/infrastructure/service/auth_service/base_auth_service.dart';
 
 class AuthenticationService implements BaseAuthenticationService {
   final AwsCognitoService? awsCognitoService;

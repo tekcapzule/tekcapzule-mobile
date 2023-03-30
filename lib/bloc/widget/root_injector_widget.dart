@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/bloc/business_logic/application_bloc.dart';
-import 'package:tek_capsule/service/auth_service/auth_service.dart';
+import 'package:tek_capsule/infrastructure/service/auth_service/auth_service.dart';
 
 
 // ignore: must_be_immutable

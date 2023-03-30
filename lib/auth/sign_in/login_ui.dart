@@ -9,7 +9,7 @@ import 'package:tek_capsule/components/entry_field.dart';
 import 'package:tek_capsule/config/cognito_configurations.dart';
 import 'package:tek_capsule/routes/routes.dart';
 import 'package:tek_capsule/locale/locales.dart';
-import 'package:tek_capsule/service/auth_service/auth_service.dart';
+import 'package:tek_capsule/infrastructure/service/auth_service/auth_service.dart';
 
 class SignInUI extends StatefulWidget {
   @override
