@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:tek_capsule/infrastructure/service/auth_service/aws_cognito_service.dart';
-import 'package:tek_capsule/infrastructure/service/auth_service/base_auth_service.dart';
+import 'package:tek_capsule/bloc/model/user_model.dart';
+import 'package:tek_capsule/service/auth_service/aws_cognito_service.dart';
+import 'package:tek_capsule/service/auth_service/base_auth_service.dart';
 
 class AuthenticationService implements BaseAuthenticationService {
   final AwsCognitoService? awsCognitoService;
@@ -38,8 +41,8 @@ class AuthenticationService implements BaseAuthenticationService {
           username: userName, confirmationCode: oneTimecode);
     } on AuthException catch (e) {
       safePrint(e.message);
-    }
-    return null;
+      return null;
+    }    
   }
 
   Future<SignOutResult?>? signOutUser() async {
@@ -48,8 +51,8 @@ class AuthenticationService implements BaseAuthenticationService {
       return await auth.signOut();
     } on AuthException catch (e) {
       print(e.message);
-    }
-    return null;
+      return null;
+    }    
   }
 
   Future<SignUpResult?>? signUpUser(
@@ -79,7 +82,51 @@ class AuthenticationService implements BaseAuthenticationService {
       );
     } on AuthException catch (e) {
       safePrint(e.message);
+      return Future.value(new SignUpResult(isSignUpComplete: false, nextStep: new AuthNextSignUpStep(signUpStep: '')));
     }
-    return null;
+  }
+
+  Future<bool> isUserSignedIn() async {
+    final result = await this.awsCognitoService!.getAuth().fetchAuthSession();
+    return result.isSignedIn;
+  }
+
+  Future<AuthUser> getCurrentUser() async {
+    final user = await this.awsCognitoService!.getAuth().getCurrentUser();
+    return user;
+  }
+
+  Future<void> fetchCognitoAuthSession() async {
+    try {
+      final result = await this.awsCognitoService!.getAuth().fetchAuthSession(
+          options: CognitoSessionOptions(getAWSCredentials: true));
+      final identityId =
+          (result as CognitoAuthSession).userPoolTokens?.accessToken;
+      safePrint("Current user's identity ID: $identityId");
+    } on AuthException catch (e) {
+      safePrint('Error retrieving auth session: ${e.message}');
+    }
+  }
+
+  Future<void> fetchCurrentUserAttributes() async {
+    try {
+      final result = await this.awsCognitoService!.getAuth().fetchUserAttributes();
+      for (final element in result) {
+        safePrint('key: ${element.userAttributeKey}; value: ${element.value}');
+      }
+    } on AuthException catch (e) {
+      safePrint('Error fetching user attributes: ${e.message}');
+    }
+  }
+
+  Future<void> fetchAndMapCurrentUserAttributes() async {
+    try {
+      final result = await this.awsCognitoService!.getAuth().fetchUserAttributes();
+      final userDetails = UserModel.fromJson(Map.fromIterable(result,
+          key: (e) => e.userAttributeKey.key, value: (e) => e.value));
+      print(userDetails.toJson());
+    } on AuthException catch (e) {
+      safePrint('Error fetching user attributes: ${e.message}');
+    }
   }
 }

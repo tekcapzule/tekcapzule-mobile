@@ -12,4 +12,9 @@ abstract class BaseAuthenticationService {
     String dob,
     String gender
   );
+  Future<bool> isUserSignedIn();
+  Future<AuthUser> getCurrentUser();
+  Future<void> fetchCognitoAuthSession();
+  Future<void> fetchCurrentUserAttributes();
+  Future<void> fetchAndMapCurrentUserAttributes();
 }
