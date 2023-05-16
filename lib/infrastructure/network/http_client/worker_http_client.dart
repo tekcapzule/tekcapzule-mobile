@@ -7,12 +7,12 @@ import 'package:tek_capsule/infrastructure/model/network_typedef_enum.dart';
 import 'package:tek_capsule/infrastructure/network/http_client/base_http_client.dart';
 
 
-class HTTPClient extends BaseHttpClient {
+class WorkerHttpClient extends BaseHttpClient {
 
-  HTTPClient() : super();
+  WorkerHttpClient() : super();
 
   Future<Response> get(
-      Uri url, ContentType contentType, bool isBearerRequired) async {
+      Uri url, ResourceContentType contentType, bool isBearerRequired) async {
     var responseJson;
     try {
       final response = await http.get(url,
@@ -26,7 +26,7 @@ class HTTPClient extends BaseHttpClient {
     return responseJson;
   }
 
-  Future<Response> post(dynamic url, ContentType contentType, dynamic payload,
+  Future<Response> post(dynamic url, ResourceContentType contentType, dynamic payload,
       bool isBearerRequired) async {
     var responseJson;
     try {
@@ -58,7 +58,7 @@ class HTTPClient extends BaseHttpClient {
   }
 
   Future<Response> delete(
-      dynamic url, ContentType contentType, isBearerRequired) async {
+      dynamic url, ResourceContentType contentType, isBearerRequired) async {
     var apiResponse;
     try {
       print('Api delete, url $url');
