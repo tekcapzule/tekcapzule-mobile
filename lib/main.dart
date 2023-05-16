@@ -5,15 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:tek_capsule/auth/sign_in/login_ui.dart';
-import 'package:tek_capsule/bloc/widget/root_injector_widget.dart';
+import 'package:tek_capsule/features/auth/sign_in/login_ui.dart';
+import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/infrastructure/network/http_client/http_client_override.dart';
-import 'package:tek_capsule/language_cubit.dart';
-import 'package:tek_capsule/locale/language_ui.dart';
-import 'package:tek_capsule/locale/locales.dart';
-import 'package:tek_capsule/routes/routes.dart';
-import 'package:tek_capsule/theme_cubit.dart';
-import 'package:tek_capsule/themes/styles.dart';
+import 'package:tek_capsule/core/locale/language_cubit.dart';
+import 'package:tek_capsule/core/locale/language_ui.dart';
+import 'package:tek_capsule/core/locale/locales.dart';
+import 'package:tek_capsule/core/routes/routes.dart';
+import 'package:tek_capsule/core/themes/theme_cubit.dart';
+import 'package:tek_capsule/core/themes/styles.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {

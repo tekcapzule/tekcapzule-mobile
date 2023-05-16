@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:tek_capsule/infrastructure/model/capsule_details.dart';
 import 'package:tek_capsule/infrastructure/model/network_typedef_enum.dart';
-import 'package:tek_capsule/infrastructure/network/http_client/worker_http_client.dart';
+import 'package:tek_capsule/infrastructure/network/worker_http_client.dart';
 
 
 class CapsuleService {
