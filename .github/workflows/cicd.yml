@@ -2,9 +2,9 @@ name: CICD Pipeline
 
 on:
   push:
-    branches: [develop]
+    branches: [dev]
   pull_request:
-    branches: [develop]
+    branches: [dev]
 
   workflow_dispatch:
 
