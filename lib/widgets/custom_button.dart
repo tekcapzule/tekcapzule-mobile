@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
 
@@ -32,7 +31,7 @@ class CustomButton extends StatelessWidget {
           text == null
               ? context.getTranslationOf('continue_text')!.toUpperCase()
               : text!.toUpperCase(),
-          style: Theme.of(context).textTheme.headline6!.copyWith(
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: textColor,
                 fontSize: 16,
                 letterSpacing: 2,

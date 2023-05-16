@@ -92,7 +92,7 @@ class _PreferencesState extends State<Preferences> {
                   children: [
                     Text(
                       'Samantha Smith',
-                      style: theme.textTheme.headline6,
+                      style: theme.textTheme.titleLarge,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -138,7 +138,7 @@ class _PreferencesState extends State<Preferences> {
                   Navigator.pushNamed(context, PageRoutes.myProfile);
                 },
                 child: CircleAvatar(
-                  backgroundColor: theme.backgroundColor,
+                  backgroundColor: theme.colorScheme.background,
                   child: Icon(
                     Icons.camera_alt_sharp,
                     color: theme.primaryColor,
@@ -175,12 +175,12 @@ class _PreferencesState extends State<Preferences> {
                               ),
                               title: Text(
                                 _blueContainerContent[index].title!,
-                                style: theme.textTheme.subtitle1!.copyWith(
+                                style: theme.textTheme.titleMedium!.copyWith(
                                     color: Color(0xff3F4B61), fontSize: 24.0),
                               ),
                               subtitle: Text(
                                 _blueContainerContent[index].subtitle!,
-                                style: theme.textTheme.bodyText1,
+                                style: theme.textTheme.bodyLarge,
                               ),
                               trailing: index == 0
                                   ? Switch(
@@ -203,7 +203,7 @@ class _PreferencesState extends State<Preferences> {
                                             Text(
                                               getTranslationOf('english')! +
                                                   ' ',
-                                              style: theme.textTheme.caption!
+                                              style: theme.textTheme.bodySmall!
                                                   .copyWith(
                                                 color: whiteTextColor
                                                     .withOpacity(0.7),

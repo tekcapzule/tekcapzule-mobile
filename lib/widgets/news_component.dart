@@ -2,8 +2,6 @@ import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/widgets/app_drawer.dart';
-import 'package:tek_capsule/core/routes/routes.dart';
-import 'package:tek_capsule/core/themes/colors.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
 
 class NewsContent {
@@ -70,7 +68,7 @@ class _NewsComponentState extends State<NewsComponent> {
                   child: Icon(
                     Icons.bookmark_add_outlined,
                     size: 20,
-                    color: theme.backgroundColor,
+                    color: theme.colorScheme.background,
                   ),
                 ),
                 // GestureDetector(
@@ -88,7 +86,7 @@ class _NewsComponentState extends State<NewsComponent> {
                 // ),
                 Icon(
                   Icons.thumb_up_alt_outlined,
-                  color: theme.backgroundColor,
+                  color: theme.colorScheme.background,
                   size: 20,
                 ),
                 // Text(
@@ -99,7 +97,7 @@ class _NewsComponentState extends State<NewsComponent> {
                 // ),
                 Icon(
                   Icons.comment_outlined,
-                  color: theme.backgroundColor,
+                  color: theme.colorScheme.background,
                   size: 20,
                 ),
                 // GestureDetector(
@@ -122,14 +120,14 @@ class _NewsComponentState extends State<NewsComponent> {
                 // ),
                 Icon(
                   Icons.file_upload_outlined,
-                  color: theme.backgroundColor,
+                  color: theme.colorScheme.background,
                   size: 20,
                 ),
               ],
             ),
           ),
         ),
-        backgroundColor: theme.backgroundColor,
+        backgroundColor: theme.colorScheme.background,
         drawer: AppDrawer(),
         body: PageView.builder(
             physics: BouncingScrollPhysics(),
@@ -149,7 +147,7 @@ class _NewsComponentState extends State<NewsComponent> {
                             iconTheme: IconThemeData(color: theme.primaryColor),
                             title: Text(
                               widget.title!,
-                              style: theme.textTheme.subtitle1!.copyWith(
+                              style: theme.textTheme.titleMedium!.copyWith(
                                 color: Colors.black,
                                 fontSize: 18,
                               ),
@@ -187,7 +185,7 @@ class _NewsComponentState extends State<NewsComponent> {
                                         color: theme.primaryColor,
                                         child: Center(
                                           child: Text('#Cloud',
-                                              style: theme.textTheme.subtitle1!
+                                              style: theme.textTheme.titleMedium!
                                                   .copyWith(
                                                 color: Colors.white,
                                                 fontSize: 18,
@@ -205,12 +203,12 @@ class _NewsComponentState extends State<NewsComponent> {
                                           children: [
                                             Icon(
                                               Icons.more_time_outlined,
-                                              color: theme.backgroundColor,
+                                              color: theme.colorScheme.background,
                                               size: 18,
                                             ),
                                             Text('20 min',
                                                 style: theme
-                                                    .textTheme.subtitle1!
+                                                    .textTheme.titleMedium!
                                                     .copyWith(
                                                   color: Colors.white,
                                                   fontSize: 18,
@@ -266,7 +264,7 @@ class _NewsComponentState extends State<NewsComponent> {
                                             const EdgeInsets.only(left: 15.0),
                                         child: Text(
                                           newsContent[index].headline!,
-                                          style: theme.textTheme.subtitle1!
+                                          style: theme.textTheme.titleMedium!
                                               .copyWith(
                                             fontSize: 18,
                                           ),
@@ -295,7 +293,7 @@ class _NewsComponentState extends State<NewsComponent> {
                                               Text(
                                                 'by Linjith Kunnon',
                                                 style: theme
-                                                    .textTheme.subtitle1!
+                                                    .textTheme.titleMedium!
                                                     .copyWith(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 15,
@@ -308,7 +306,7 @@ class _NewsComponentState extends State<NewsComponent> {
                                                 child: Text(
                                                   '(August 16, 2021)',
                                                   style: theme
-                                                      .textTheme.subtitle1!
+                                                      .textTheme.titleMedium!
                                                       .copyWith(
                                                     fontWeight:
                                                         FontWeight.normal,
@@ -338,7 +336,7 @@ class _NewsComponentState extends State<NewsComponent> {
                                       Text(
                                         newsContent[index].description!,
                                         style:
-                                            theme.textTheme.subtitle2!.copyWith(
+                                            theme.textTheme.titleSmall!.copyWith(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 16,
                                         ),

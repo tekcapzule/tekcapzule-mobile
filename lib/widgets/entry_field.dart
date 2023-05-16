@@ -31,7 +31,7 @@ class EntryField extends StatelessWidget {
           TextField(
             decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: Theme.of(context).textTheme.subtitle1!.copyWith(
+                hintStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontSize: 14,
                     )),
                     obscureText: hideText,

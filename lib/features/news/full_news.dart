@@ -1,5 +1,4 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/core/themes/colors.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
@@ -9,7 +8,7 @@ class FullNews extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: theme.colorScheme.background,
       body: ListView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
@@ -22,7 +21,7 @@ class FullNews extends StatelessWidget {
                 IconButton(
                     icon: Icon(
                       Icons.keyboard_arrow_left_sharp,
-                      color: theme.backgroundColor,
+                      color: theme.colorScheme.background,
                     ),
                     onPressed: () {
                       Navigator.pop(context);
@@ -30,7 +29,7 @@ class FullNews extends StatelessWidget {
                 Spacer(),
                 Text(
                   'www.thetimesexpress.com',
-                  style: theme.textTheme.caption!.copyWith(
+                  style: theme.textTheme.bodySmall!.copyWith(
                     color: whiteTextColor,
                   ),
                 ),
@@ -55,14 +54,14 @@ class FullNews extends StatelessWidget {
           ),
           Text(
             context.getTranslationOf('latest_news_or_sports')!.padLeft(26),
-            style: theme.textTheme.caption,
+            style: theme.textTheme.bodySmall,
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: FadedScaleAnimation(
               Text(
                 context.getTranslationOf('news_headline')!,
-                style: theme.textTheme.headline6!.copyWith(
+                style: theme.textTheme.titleLarge!.copyWith(
                     fontSize: 28,
                     letterSpacing: 0,
                     fontWeight: FontWeight.w800),
@@ -75,11 +74,11 @@ class FullNews extends StatelessWidget {
             child: RichText(
                 text: TextSpan(
                     text: context.getTranslationOf('by')! + ' ',
-                    style: theme.textTheme.caption,
+                    style: theme.textTheme.bodySmall,
                     children: [
                   TextSpan(
                       text: 'Linda Anderson',
-                      style: theme.textTheme.caption!.copyWith(
+                      style: theme.textTheme.bodySmall!.copyWith(
                         color: theme.primaryColor,
                       )),
                 ])),
@@ -90,7 +89,7 @@ class FullNews extends StatelessWidget {
             ),
             child: Text(
               context.getTranslationOf('news_description')!,
-              style: theme.textTheme.subtitle2!.copyWith(
+              style: theme.textTheme.titleSmall!.copyWith(
                 fontWeight: FontWeight.normal,
                 fontSize: 13,
               ),

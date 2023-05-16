@@ -33,10 +33,10 @@ class _SupportState extends State<Support> {
                       children: [
                         Text(
                           context.getTranslationOf('support')!,
-                          style: theme.textTheme.headline6,
+                          style: theme.textTheme.titleLarge,
                         ),
                         Text(context.getTranslationOf('connect_us')!,
-                            style: theme.textTheme.subtitle2),
+                            style: theme.textTheme.titleSmall),
                       ],
                     ),
                     Spacer(),
@@ -75,7 +75,7 @@ class _SupportState extends State<Support> {
                                   Container(
                                     width: 1,
                                     height: 25,
-                                    color: Theme.of(context).backgroundColor,
+                                    color: Theme.of(context).colorScheme.background,
                                   ),
                                   socialButton('assets/icons/mail.png',
                                       context.getTranslationOf('mail_us')!)
@@ -86,7 +86,7 @@ class _SupportState extends State<Support> {
                               child: Container(
                                 padding: EdgeInsets.only(top: 4),
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).backgroundColor,
+                                  color: Theme.of(context).colorScheme.background,
                                   borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(20),
                                   ),
@@ -100,14 +100,14 @@ class _SupportState extends State<Support> {
                                           top: 16, left: 20),
                                       child: Text(
                                           context.getTranslationOf('write_us')!,
-                                          style: theme.textTheme.headline6),
+                                          style: theme.textTheme.titleLarge),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20),
                                       child: Text(
                                           context.getTranslationOf('let_us')!,
-                                          style: theme.textTheme.subtitle2),
+                                          style: theme.textTheme.titleSmall),
                                     ),
                                     Spacer(),
                                     EntryField(
@@ -159,7 +159,7 @@ class _SupportState extends State<Support> {
     return TextButton.icon(
       icon: ImageIcon(
         AssetImage(icon),
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         size: 16,
       ),
       onPressed: () {},
@@ -167,8 +167,8 @@ class _SupportState extends State<Support> {
         '  ' + text,
         style: Theme.of(context)
             .textTheme
-            .subtitle1!
-            .copyWith(color: Theme.of(context).backgroundColor),
+            .titleMedium!
+            .copyWith(color: Theme.of(context).colorScheme.background),
       ),
     );
   }

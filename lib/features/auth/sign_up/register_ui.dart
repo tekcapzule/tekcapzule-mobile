@@ -1,7 +1,6 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/widgets/custom_button.dart';
@@ -126,7 +125,7 @@ class _RegisterUIState extends State<RegisterUI> {
                 height: MediaQuery.of(context).size.height * 0.68,
                 padding: EdgeInsets.symmetric(vertical: 5),
                 decoration: BoxDecoration(
-                  color: theme.backgroundColor,
+                  color: theme.colorScheme.background,
                 ),
                 child: ListView(
                   children: [
@@ -142,7 +141,7 @@ class _RegisterUIState extends State<RegisterUI> {
                               const EdgeInsets.only(left: 15.0, bottom: 10),
                           child: Text(
                             getTranslationOf('register')!,
-                            style: theme.textTheme.subtitle1,
+                            style: theme.textTheme.titleMedium,
                           ),
                         ),
                         Padding(
@@ -150,7 +149,7 @@ class _RegisterUIState extends State<RegisterUI> {
                           child: Text(
                             getTranslationOf('in_less_than')!,
                             textAlign: TextAlign.left,
-                            style: theme.textTheme.subtitle2,
+                            style: theme.textTheme.titleSmall,
                           ),
                         ),
                       ],
@@ -214,11 +213,11 @@ class _RegisterUIState extends State<RegisterUI> {
                       child: Text(
                         getTranslationOf('we_will_send')!,
                         textAlign: TextAlign.center,
-                        style: theme.textTheme.subtitle1,
+                        style: theme.textTheme.titleMedium,
                       ),
                     ),
                     CustomButton(
-                      textColor: Theme.of(context).backgroundColor,
+                      textColor: Theme.of(context).colorScheme.background,
                       onTap: () async {
                         final result = await RootInjectorWidget.of(context)!
                             .authService

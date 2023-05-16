@@ -17,7 +17,7 @@ class News extends StatelessWidget {
       child: Stack(
         children: [
           Scaffold(
-            backgroundColor: theme.backgroundColor,
+            backgroundColor: theme.colorScheme.background,
             body: NewsComponent(true, true, title),
           ),
           // PositionedDirectional(

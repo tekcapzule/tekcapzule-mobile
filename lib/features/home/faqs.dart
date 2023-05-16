@@ -70,10 +70,10 @@ class _FaqsState extends State<Faqs> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(getTranslationOf('faqs')!,
-                        style: theme.textTheme.headline6),
+                        style: theme.textTheme.titleLarge),
                     Text(
                       getTranslationOf('get_your_answers')!,
-                      style: theme.textTheme.subtitle2,
+                      style: theme.textTheme.titleSmall,
                     ),
                   ],
                 ),
@@ -93,7 +93,7 @@ class _FaqsState extends State<Faqs> {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 18),
                 decoration: BoxDecoration(
-                    color: theme.backgroundColor,
+                    color: theme.colorScheme.background,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20))),
                 child: ListView.builder(
@@ -114,7 +114,7 @@ class _FaqsState extends State<Faqs> {
                                 children: [
                                   Text(
                                     _questions[index],
-                                    style: theme.textTheme.bodyText1,
+                                    style: theme.textTheme.bodyLarge,
                                   ),
                                   Spacer(),
                                   isOpen[index]
@@ -137,7 +137,7 @@ class _FaqsState extends State<Faqs> {
                             isOpen[index]
                                 ? Text(
                                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
-                                    style: theme.textTheme.caption,
+                                    style: theme.textTheme.bodySmall,
                                   )
                                 : SizedBox.shrink()
                           ],

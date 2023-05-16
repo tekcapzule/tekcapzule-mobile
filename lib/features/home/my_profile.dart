@@ -1,4 +1,3 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/Animations/faded_scale_animation.dart';
 import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +45,7 @@ class _MyProfileState extends State<MyProfile> {
                             start: 15, top: 30),
                         child: Text(
                           context.getTranslationOf('my_profile')!,
-                          style: theme.textTheme.headline6,
+                          style: theme.textTheme.titleLarge,
                         ),
                       ),
                     ),
@@ -60,7 +59,7 @@ class _MyProfileState extends State<MyProfile> {
                         child: Text(
                             context.getTranslationOf('everything_about_us')!,
                             textAlign: TextAlign.center,
-                            style: theme.textTheme.subtitle2),
+                            style: theme.textTheme.titleSmall),
                       ),
                     ),
                     PositionedDirectional(
@@ -98,7 +97,7 @@ class _MyProfileState extends State<MyProfile> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
+                      color: Theme.of(context).colorScheme.background,
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(20),
                       ),
@@ -113,12 +112,12 @@ class _MyProfileState extends State<MyProfile> {
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Text(
                                 context.getTranslationOf('full_name')!,
-                                style: theme.textTheme.bodyText1,
+                                style: theme.textTheme.bodyLarge,
                               ),
                             ),
                             subtitle: Text(
                               'Samantha Smith',
-                              style: theme.textTheme.bodyText1,
+                              style: theme.textTheme.bodyLarge,
                             ),
                           ),
                           Spacer(),
@@ -127,7 +126,7 @@ class _MyProfileState extends State<MyProfile> {
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Text(
                                 context.getTranslationOf('email_address')!,
-                                style: theme.textTheme.bodyText1,
+                                style: theme.textTheme.bodyLarge,
                               ),
                             ),
                             subtitle: Text('samantha@mail.com'),
@@ -138,7 +137,7 @@ class _MyProfileState extends State<MyProfile> {
                               padding: const EdgeInsets.symmetric(vertical: 8),
                               child: Text(
                                 context.getTranslationOf('phone_number')!,
-                                style: theme.textTheme.bodyText1,
+                                style: theme.textTheme.bodyLarge,
                               ),
                             ),
                             subtitle: Text('+1 987 654 3210'),

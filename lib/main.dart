@@ -9,7 +9,6 @@ import 'package:tek_capsule/features/auth/sign_in/login_ui.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/infrastructure/network/http_client/http_client_override.dart';
 import 'package:tek_capsule/core/locale/language_cubit.dart';
-import 'package:tek_capsule/core/locale/language_ui.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
 import 'package:tek_capsule/core/routes/routes.dart';
 import 'package:tek_capsule/core/themes/theme_cubit.dart';

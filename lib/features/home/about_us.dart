@@ -1,4 +1,3 @@
-import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
@@ -27,12 +26,12 @@ class AboutUs extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 15),
                         child: Text(context.getTranslationOf('about_us')!,
-                            style: theme.textTheme.headline6),
+                            style: theme.textTheme.titleLarge),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 15),
                         child: Text(context.getTranslationOf('know_our_story')!,
-                            style: theme.textTheme.subtitle2),
+                            style: theme.textTheme.titleSmall),
                       ),
                     ],
                   ),
@@ -50,7 +49,7 @@ class AboutUs extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 18, horizontal: 18),
               height: MediaQuery.of(context).size.height * 0.68,
               decoration: BoxDecoration(
-                  color: theme.backgroundColor,
+                  color: theme.colorScheme.background,
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20))),
               child: SingleChildScrollView(
@@ -62,7 +61,7 @@ class AboutUs extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Text(
                         context.getTranslationOf('our_mission')!,
-                        style: theme.textTheme.bodyText1!.copyWith(
+                        style: theme.textTheme.bodyLarge!.copyWith(
                           fontSize: 15,
                           letterSpacing: 0.08,
                         ),
@@ -70,7 +69,7 @@ class AboutUs extends StatelessWidget {
                     ),
                     Text(
                         'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industryLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n\n It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-                        style: theme.textTheme.caption!.copyWith(
+                        style: theme.textTheme.bodySmall!.copyWith(
                           color: theme.focusColor,
                         )),
                   ],

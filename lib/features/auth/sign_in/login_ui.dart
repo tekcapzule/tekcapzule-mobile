@@ -1,12 +1,9 @@
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/widgets/custom_button.dart';
 import 'package:tek_capsule/widgets/entry_field.dart';
-import 'package:tek_capsule/infrastructure/config/cognito_config.dart';
 import 'package:tek_capsule/core/routes/routes.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
 import 'package:tek_capsule/infrastructure/service/auth_service/auth_service.dart';
@@ -79,7 +76,7 @@ class _SignInUIState extends State<SignInUI> {
                         padding: EdgeInsets.only(left: 15.0, top: 25.0),
                         child: Text(getTranslationOf('sign_in_now')!,
                             textAlign: TextAlign.left,
-                            style: Theme.of(context).textTheme.subtitle1),
+                            style: Theme.of(context).textTheme.titleMedium),
                       ),
                       EntryField(
                         label: getTranslationOf('email'),
@@ -113,7 +110,7 @@ class _SignInUIState extends State<SignInUI> {
                         ),
                       ),
                       CustomButton(
-                        textColor: Theme.of(context).backgroundColor,
+                        textColor: Theme.of(context).colorScheme.background,
                         onTap: () {
                           final result = RootInjectorWidget.of(context)!
                               .authService
@@ -142,7 +139,7 @@ class _SignInUIState extends State<SignInUI> {
                       ),
                       Text(getTranslationOf('or_continue_with')!,
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle2),
+                          style: Theme.of(context).textTheme.titleSmall),
                       SizedBox(
                         height: 30,
                       ),
@@ -180,7 +177,7 @@ class _SignInUIState extends State<SignInUI> {
     return TextButton.icon(
       icon: ImageIcon(
         AssetImage(icon),
-        color: Theme.of(context).backgroundColor,
+        color: Theme.of(context).colorScheme.background,
         size: 20,
       ),
       onPressed: () {},
@@ -188,8 +185,8 @@ class _SignInUIState extends State<SignInUI> {
         text,
         style: Theme.of(context)
             .textTheme
-            .subtitle1!
-            .copyWith(color: Theme.of(context).backgroundColor),
+            .titleMedium!
+            .copyWith(color: Theme.of(context).colorScheme.background),
       ),
     );
   }

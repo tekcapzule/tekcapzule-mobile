@@ -1,6 +1,5 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tek_capsule/widgets/custom_button.dart';
 import 'package:tek_capsule/common/config/app_config.dart';
@@ -44,10 +43,10 @@ class _LanguageUIState extends State<LanguageUI> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(getTranslationOf('language')!,
-                            style: theme.textTheme.headline6),
+                            style: theme.textTheme.titleLarge),
                         Text(
                           getTranslationOf('preferred_language')!,
-                          style: theme.textTheme.subtitle2,
+                          style: theme.textTheme.titleSmall,
                         ),
                       ],
                     ),
@@ -70,7 +69,7 @@ class _LanguageUIState extends State<LanguageUI> {
                   padding: EdgeInsets.symmetric(vertical: 18, horizontal: 8),
                   height: MediaQuery.of(context).size.height * 0.72,
                   decoration: BoxDecoration(
-                      color: theme.backgroundColor,
+                      color: theme.colorScheme.background,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(20))),
                   child: ListView(
@@ -81,7 +80,7 @@ class _LanguageUIState extends State<LanguageUI> {
                             vertical: 10, horizontal: 10),
                         child: Text(
                           getTranslationOf('select_preferred_language')!,
-                          style: theme.textTheme.subtitle2!.copyWith(
+                          style: theme.textTheme.titleSmall!.copyWith(
                             color: theme.focusColor,
                           ),
                         ),
@@ -108,7 +107,7 @@ class _LanguageUIState extends State<LanguageUI> {
                                         .languagesSupported.keys
                                         .elementAt(index)]!
                                     .name,
-                                style: theme.textTheme.headline6!.copyWith(
+                                style: theme.textTheme.titleLarge!.copyWith(
                                   fontSize: 16,
                                 ),
                               ),

@@ -1,4 +1,3 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +44,7 @@ class _VerificationUIState extends State<VerificationUI> {
                 // height: MediaQuery.of(context).size.height * 0.68,
                 padding: EdgeInsets.symmetric(vertical: 12),
                 decoration: BoxDecoration(
-                  color: theme.backgroundColor,
+                  color: theme.colorScheme.background,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -55,7 +54,7 @@ class _VerificationUIState extends State<VerificationUI> {
                           top: 30, left: 16, bottom: 6, right: 16),
                       child: Text(
                         getTranslationOf('verification')!,
-                        style: theme.textTheme.subtitle1,
+                        style: theme.textTheme.titleMedium,
                       ),
                     ),
                     Padding(
@@ -63,7 +62,7 @@ class _VerificationUIState extends State<VerificationUI> {
                           top: 20, left: 16, bottom: 30, right: 16),
                       child: Text(
                         getTranslationOf('we_have')!,
-                        style: theme.textTheme.subtitle2,
+                        style: theme.textTheme.titleSmall,
                       ),
                     ),
                     EntryField(
@@ -73,7 +72,7 @@ class _VerificationUIState extends State<VerificationUI> {
                     ),
                     Spacer(),
                     CustomButton(
-                      textColor: Theme.of(context).backgroundColor,
+                      textColor: Theme.of(context).colorScheme.background,
                       text: getTranslationOf('get_started'),
                       onTap: () async {
                         final result = await RootInjectorWidget.of(context)!

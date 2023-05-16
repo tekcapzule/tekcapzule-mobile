@@ -1,6 +1,5 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:blur/blur.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/core/themes/colors.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
@@ -51,7 +50,7 @@ class Comment extends StatelessWidget {
           'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock,'),
     ];
     return Scaffold(
-      backgroundColor: theme.backgroundColor,
+      backgroundColor: theme.colorScheme.background,
       body: FadedSlideAnimation(
         Column(
           children: [
@@ -84,7 +83,7 @@ class Comment extends StatelessWidget {
                                   }),
                               Text(
                                 context.getTranslationOf('news_headline')!,
-                                style: theme.textTheme.headline6!.copyWith(
+                                style: theme.textTheme.titleLarge!.copyWith(
                                   color: whiteTextColor,
                                   fontSize: 16,
                                 ),
@@ -97,7 +96,7 @@ class Comment extends StatelessWidget {
                                   Text(
                                     context
                                         .getTranslationOf('the_time_express')!,
-                                    style: theme.textTheme.caption!.copyWith(
+                                    style: theme.textTheme.bodySmall!.copyWith(
                                       color: theme.primaryColor,
                                     ),
                                   ),
@@ -119,7 +118,7 @@ class Comment extends StatelessWidget {
                         const EdgeInsets.only(top: 16.0, left: 16, right: 16),
                     child: Text(
                       context.getTranslationOf('recent_comments')!,
-                      style: theme.textTheme.subtitle2,
+                      style: theme.textTheme.titleSmall,
                     ),
                   ),
                   ListView.builder(
@@ -142,12 +141,12 @@ class Comment extends StatelessWidget {
                                   ),
                                   Text(
                                     _comments[index].name,
-                                    style: theme.textTheme.bodyText1,
+                                    style: theme.textTheme.bodyLarge,
                                   ),
                                   Spacer(),
                                   Text(
                                     _comments[index].date,
-                                    style: theme.textTheme.caption!.copyWith(
+                                    style: theme.textTheme.bodySmall!.copyWith(
                                       fontSize: 10,
                                     ),
                                   ),
@@ -164,7 +163,7 @@ class Comment extends StatelessWidget {
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               child: Text(
                                 _comments[index].comment,
-                                style: theme.textTheme.caption!.copyWith(
+                                style: theme.textTheme.bodySmall!.copyWith(
                                   color: theme.focusColor,
                                   fontSize: 11,
                                 ),
@@ -196,7 +195,7 @@ class Comment extends StatelessWidget {
               padding: EdgeInsets.all(16),
               child: Container(
                 decoration: BoxDecoration(
-                    color: theme.backgroundColor,
+                    color: theme.colorScheme.background,
                     borderRadius: BorderRadius.circular(30)),
                 child: Row(
                   children: [
@@ -215,7 +214,7 @@ class Comment extends StatelessWidget {
                         decoration: InputDecoration(
                             hintText:
                                 context.getTranslationOf('write_your_comment'),
-                            hintStyle: theme.textTheme.caption,
+                            hintStyle: theme.textTheme.bodySmall,
                             enabledBorder: InputBorder.none),
                       ),
                     ),

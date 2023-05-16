@@ -1,8 +1,6 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/core/routes/routes.dart';
-import 'package:tek_capsule/core/locale/locales.dart';
 
 class DrawerItems {
   final IconData icon;
@@ -89,7 +87,7 @@ class AppDrawer extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 12),
                         child: Text(
                           'Samantha\nSmith',
-                          style: theme.textTheme.subtitle1!.copyWith(fontSize: 20),
+                          style: theme.textTheme.titleMedium!.copyWith(fontSize: 20),
                         ),
                       ),     
                       Spacer(),   
@@ -123,7 +121,7 @@ class AppDrawer extends StatelessWidget {
                           title: Text(
                             _drawerItems[index].name!,
                             style:
-                                theme.textTheme.subtitle1!.copyWith(fontSize: 18),
+                                theme.textTheme.titleMedium!.copyWith(fontSize: 18),
                           ),
                           onTap: index == 0
                               ? () {
@@ -157,7 +155,7 @@ class AppDrawer extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'TOPICS',
-                          style: theme.textTheme.subtitle1!.copyWith(fontSize: 18),
+                          style: theme.textTheme.titleMedium!.copyWith(fontSize: 18),
                         ),
                       ),
                       Container(
@@ -176,14 +174,14 @@ class AppDrawer extends StatelessWidget {
                                 margin: EdgeInsets.all(8),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
-                                    color: theme.backgroundColor),
+                                    color: theme.colorScheme.background),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                      Text(
                                       _suggestedTopics[index].title!,
-                                      style: theme.textTheme.subtitle1!.copyWith(
+                                      style: theme.textTheme.titleMedium!.copyWith(
                                         fontSize: 16.0
                                       ),
                                     ),
