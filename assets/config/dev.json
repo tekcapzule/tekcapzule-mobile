@@ -1,0 +1,16 @@
+{
+    "capsule": {
+        "infra": {
+            "gateway": "0isr8e2ete.execute-api",
+            "region": "us-west-2",
+            "stage": "dev"
+        }
+    },
+    "topic": {
+        "infra": {
+            "gateway": "ydfobf5vfd.execute-api",
+            "region": "us-east-1",
+            "stage": "dev"
+        }
+    }
+}

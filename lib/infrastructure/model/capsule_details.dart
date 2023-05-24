@@ -73,4 +73,13 @@ class CapsuleDetails {
     data['keyPoints'] = keyPoints;
     return data;
   }
+
+  List<CapsuleDetails>? toListOfCapsules(Iterable? items) {
+    if (items == null) {
+      return null;
+    }
+    List<CapsuleDetails> capsuleList =
+        items.map((e) => CapsuleDetails.fromJson(e)).toList();
+    return capsuleList;
+  }
 }
