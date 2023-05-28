@@ -5,15 +5,15 @@ import 'package:tek_capsule/infrastructure/model/topic_details.dart';
 import 'package:tek_capsule/infrastructure/service/topic_service/topic_service.dart';
 
 class TopicBloc {
-  Future<List<TopicDetails>> getAllTopics() async {
+  Stream<List<TopicDetails>> getAllTopics() async* {
     final config = await ApplicationBloc.getAppConfiguration('dev');
     final topicService = TopicService(
-        gateway: config.capsule!.infra!.gateway!,
-        region: config.capsule!.infra!.gateway!,
-        stage: config.capsule!.infra!.gateway!);
+        gateway: config.topic!.infra!.gateway!,
+        region: config.topic!.infra!.region!,
+        stage: config.topic!.infra!.stage!);
     final result = await topicService.getAll();
     List<TopicDetails>? topicList =
         TopicDetails().toListOfTopics(jsonDecode(result.body));
-    return Future.value(topicList);
+    yield await Future.value(topicList);
   }
 }
