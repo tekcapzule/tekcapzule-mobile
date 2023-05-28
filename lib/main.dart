@@ -26,20 +26,29 @@ void main() async {
   //   // BlocProvider(create: (context) => LanguageCubit()),
   //   BlocProvider(create: (context) => ThemeCubit(true)),
   // ], child: Phoenix(child: MyApp())));
+  final GlobalKey<ScaffoldMessengerState> globalscaffoldKey =
+      new GlobalKey<ScaffoldMessengerState>();
   final injectorWidget = RootInjectorWidget(
       child: MultiBlocProvider(providers: [
     BlocProvider(create: (context) => LanguageCubit()),
     BlocProvider(create: (context) => ThemeCubit(true)),
-  ], child: Phoenix(child: MyApp())));
-  injectorWidget.init();
+  ], child: Phoenix(child: MyApp(globalscaffoldKey))));
+  injectorWidget.init(globalscaffoldKey);
   runApp(injectorWidget);
 }
 
+// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
+  late GlobalKey<ScaffoldMessengerState> globalscaffoldKey;
+  MyApp(GlobalKey<ScaffoldMessengerState> scaffoldKey) {
+    this.globalscaffoldKey = scaffoldKey;
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: globalscaffoldKey,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         const AppLocalizationsDelegate(),

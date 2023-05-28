@@ -1,4 +1,7 @@
 {
+    "features": {
+        "aws_cognito": false
+    },
     "capsule": {
         "infra": {
             "gateway": "0isr8e2ete.execute-api",

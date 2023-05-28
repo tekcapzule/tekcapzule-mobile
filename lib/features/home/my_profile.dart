@@ -1,6 +1,7 @@
 import 'package:animation_wrappers/Animations/faded_scale_animation.dart';
 import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:flutter/material.dart';
+import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/widgets/custom_button.dart';
 import 'package:tek_capsule/core/routes/routes.dart';
@@ -12,7 +13,6 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
-
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -150,10 +150,17 @@ class _MyProfileState extends State<MyProfile> {
                                 .getTranslationOf('logout')!
                                 .toUpperCase(),
                             onTap: () async {
-                              await RootInjectorWidget.of(context)!
-                                  .authService
-                                  .signOutUser();
-                              Navigator.pushNamed(context, PageRoutes.signIn);
+                              final config =
+                                  await ApplicationBloc.getAppConfiguration(
+                                      'dev');
+                              if (config.features!.awsCognito!) {
+                                await RootInjectorWidget.of(context)!
+                                    .authService
+                                    .signOutUser();
+                                Navigator.pushNamed(context, PageRoutes.signIn);
+                              } else {
+                                Navigator.pushNamed(context, PageRoutes.signIn);
+                              }
                             },
                           ),
                           Spacer(),

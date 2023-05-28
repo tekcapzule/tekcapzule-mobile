@@ -1,6 +1,7 @@
 import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
+import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/widgets/custom_button.dart';
 import 'package:tek_capsule/widgets/entry_field.dart';
@@ -75,11 +76,17 @@ class _VerificationUIState extends State<VerificationUI> {
                       textColor: Theme.of(context).colorScheme.background,
                       text: getTranslationOf('get_started'),
                       onTap: () async {
-                        final result = await RootInjectorWidget.of(context)!
-                            .authService
-                            .confirmUser(
-                                routeArgs.toString(), otpInputController.text);
-                        if (result!.isSignUpComplete) {
+                        final config =
+                            await ApplicationBloc.getAppConfiguration('dev');
+                        if (config.features!.awsCognito!) {
+                          final result = await RootInjectorWidget.of(context)!
+                              .authService
+                              .confirmUser(routeArgs.toString(),
+                                  otpInputController.text);
+                          if (result!.isSignUpComplete) {
+                            Navigator.pushNamed(context, PageRoutes.news);
+                          }
+                        } else {
                           Navigator.pushNamed(context, PageRoutes.news);
                         }
                       },

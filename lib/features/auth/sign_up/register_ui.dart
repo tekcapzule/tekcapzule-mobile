@@ -2,6 +2,7 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
+import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/widgets/custom_button.dart';
 import 'package:tek_capsule/widgets/entry_field.dart';
@@ -219,21 +220,31 @@ class _RegisterUIState extends State<RegisterUI> {
                     CustomButton(
                       textColor: Theme.of(context).colorScheme.background,
                       onTap: () async {
-                        final result = await RootInjectorWidget.of(context)!
-                            .authService
-                            .signUpUser(
-                                nameController.text,
-                                emailController.text,
-                                pwdController.text,
-                                phoneController.text,
-                                dobController.text,
-                                selectGenderValue.toString());
-                        if (result!.isSignUpComplete) {
+                        final config =
+                            await ApplicationBloc.getAppConfiguration('dev');
+                        if (config.features!.awsCognito!) {
+                          final result = await RootInjectorWidget.of(context)!
+                              .authService
+                              .signUpUser(
+                                  nameController.text,
+                                  emailController.text,
+                                  pwdController.text,
+                                  phoneController.text,
+                                  dobController.text,
+                                  selectGenderValue.toString());
+                          if (result!.isSignUpComplete) {
+                            Navigator.pushNamed(
+                              context,
+                              PageRoutes.verification,
+                              arguments: emailController.text,
+                            );
+                          }
+                        } else {
                           Navigator.pushNamed(
-                            context,
-                            PageRoutes.verification,
-                            arguments: emailController.text,
-                          );
+                              context,
+                              PageRoutes.verification,
+                              arguments: 'empty',
+                            );
                         }
                       },
                     ),

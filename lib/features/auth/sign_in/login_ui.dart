@@ -1,6 +1,7 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
+import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/widgets/custom_button.dart';
 import 'package:tek_capsule/widgets/entry_field.dart';
@@ -111,27 +112,34 @@ class _SignInUIState extends State<SignInUI> {
                       ),
                       CustomButton(
                         textColor: Theme.of(context).colorScheme.background,
-                        onTap: () {
-                          final result = RootInjectorWidget.of(context)!
-                              .authService
-                              .signInUser(emailInputController.text,
-                                  passwordInputController.text);
-                          result!.then((value) => {
-                                if (value.isSignedIn)
-                                  {
-                                    Navigator.pushNamed(
-                                        context, PageRoutes.news)
-                                  }
-                                else
-                                  {
-                                    AlertDialog(
-                                      title: Text("TekCapsule Alert"),
-                                      content: Text("User Not Authenticated."),
-                                    ),
-                                    emailInputController.clear(),
-                                    passwordInputController.clear(),
-                                  }
-                              });
+                        onTap: () async {
+                          final config =
+                              await ApplicationBloc.getAppConfiguration('dev');
+                          if (config.features!.awsCognito!) {
+                            final result = RootInjectorWidget.of(context)!
+                                .authService
+                                .signInUser(emailInputController.text,
+                                    passwordInputController.text);
+                            result!.then((value) => {
+                                  if (value.isSignedIn)
+                                    {
+                                      Navigator.pushNamed(
+                                          context, PageRoutes.news)
+                                    }
+                                  else
+                                    {
+                                      AlertDialog(
+                                        title: Text("TekCapsule Alert"),
+                                        content:
+                                            Text("User Not Authenticated."),
+                                      ),
+                                      emailInputController.clear(),
+                                      passwordInputController.clear(),
+                                    }
+                                });
+                          } else {
+                            Navigator.pushNamed(context, PageRoutes.news);
+                          }
                         },
                       ),
                       SizedBox(
