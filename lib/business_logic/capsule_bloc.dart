@@ -5,7 +5,7 @@ import 'package:tek_capsule/infrastructure/model/capsule_details.dart';
 import 'package:tek_capsule/infrastructure/service/capsule_service/capsule_service.dart';
 
 class CapsuleBloc {
-  Future<List<CapsuleDetails>> getAllCapsules() async {
+  Stream<List<CapsuleDetails>> getAllCapsules() async* {
     final config = await ApplicationBloc.getAppConfiguration('dev');
     final capsuleService = CapsuleService(
         gateway: config.capsule!.infra!.gateway!,
@@ -14,6 +14,6 @@ class CapsuleBloc {
     final result = await capsuleService.getMyFeed(["SWD", "blk"]);
     List<CapsuleDetails>? capsuleList =
         CapsuleDetails().toListOfCapsules(json.decode(result.body));
-    return Future.value(capsuleList);
+    yield await Future.value(capsuleList);
   }
 }

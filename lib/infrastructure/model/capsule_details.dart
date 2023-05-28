@@ -49,8 +49,8 @@ class CapsuleDetails {
     level = json['level'];
     expiryDate = json['expiryDate'];
     editorsPick = json['editorsPick'];
-    tags = json['tags'].cast<String>();
-    keyPoints = json['keyPoints'].cast<String>();
+    tags = json['tags']?.cast<String>();
+    keyPoints = json['keyPoints']?.cast<String>();
   }
 
   Map<String, dynamic> toJson() {

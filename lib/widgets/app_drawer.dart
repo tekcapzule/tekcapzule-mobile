@@ -162,7 +162,9 @@ class AppDrawer extends StatelessWidget {
                                 case ConnectionState.waiting:
                                 case ConnectionState.active:
                                   return Center(
-                                      child: CircularProgressIndicator());
+                                      child: CircularProgressIndicator(
+                                        color: theme.primaryColor,
+                                      ));
                                 case ConnectionState.done:
                                   if (snapshot.hasError)
                                     return Text('Err: ${snapshot.error}');
