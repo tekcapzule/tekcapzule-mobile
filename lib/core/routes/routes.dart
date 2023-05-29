@@ -36,7 +36,7 @@ class PageRoutes {
       signUp: (context) => RegisterUI(),
       verification: (context) => VerificationUI(),
       news: (context) => News(),
-      fullNews: (context) => FullNews(),
+     // fullNews: (context) => FullNews(),
       comment: (context) => Comment(),
       support: (context) => Support(),
       privacyPolicy: (context) => PrivacyPolicy(),

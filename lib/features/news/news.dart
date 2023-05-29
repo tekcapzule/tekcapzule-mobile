@@ -11,24 +11,20 @@ class News extends StatelessWidget {
     String title =
         ModalRoute.of(context)!.settings.arguments as String? ?? "My Feed";
 
-    return SwipeDetector(
-      onSwipeLeft: () => Navigator.push(
-          context, CupertinoPageRoute(builder: (context) => FullNews())),
-      child: Stack(
-        children: [
-          Scaffold(
-            backgroundColor: theme.colorScheme.background,
-            body: NewsComponent(true, true, title),
-          ),
-          // PositionedDirectional(
-          //     bottom: 100,
-          //     end: 30,
-          //     child: Image.asset(
-          //       'assets/ic_swipeleft.png',
-          //       scale: 2,
-          //     )),
-        ],
-      ),
+    return Stack(
+      children: [
+        Scaffold(
+          backgroundColor: theme.colorScheme.background,
+          body: NewsComponent(true, true, title),
+        ),
+        // PositionedDirectional(
+        //     bottom: 100,
+        //     end: 30,
+        //     child: Image.asset(
+        //       'assets/ic_swipeleft.png',
+        //       scale: 2,
+        //     )),
+      ],
     );
   }
 }
