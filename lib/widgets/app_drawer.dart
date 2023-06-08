@@ -1,8 +1,10 @@
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/business_logic/topic_bloc.dart';
+import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/core/routes/routes.dart';
 import 'package:tek_capsule/infrastructure/model/topic_details.dart';
+import 'package:tek_capsule/widgets/action_indicator.dart';
 
 class DrawerItems {
   final IconData icon;
@@ -14,8 +16,9 @@ class DrawerItems {
 class SuggestedTopics {
   final String image;
   final String? title;
+  final String? code;
 
-  SuggestedTopics(this.image, this.title);
+  SuggestedTopics({required this.image, required this.title, this.code});
 }
 
 class AppDrawer extends StatelessWidget {
@@ -29,20 +32,7 @@ class AppDrawer extends StatelessWidget {
       DrawerItems(Icons.speaker_notes, 'TRENDING'),
       DrawerItems(Icons.book_rounded, 'EDITORS PICK'),
     ];
-    List<SuggestedTopics> _suggestedTopics = [
-      SuggestedTopics('assets/topics/ic_trending.png', 'Cyber Security'),
-      SuggestedTopics('assets/topics/ic_sports.png', 'Edge Computing'),
-      SuggestedTopics('assets/topics/ic_politics.png', 'Human Augmentation'),
-      SuggestedTopics(
-          'assets/topics/ic_business.png', 'Intelligent process Automation'),
-      SuggestedTopics('assets/topics/ic_tech.png', 'Internet of Behaviours'),
-      SuggestedTopics('assets/topics/ic_travel.png', 'Mixed Reality'),
-      SuggestedTopics('assets/topics/ic_fashion.png', 'Tactile VR'),
-      SuggestedTopics('assets/topics/ic_education.png', '5G'),
-      SuggestedTopics('assets/topics/ic_health.png', 'AI/ML'),
-      SuggestedTopics('assets/topics/ic_fun.png', 'Big Data'),
-      SuggestedTopics('assets/topics/ic_hollywodd.png', 'Blockchain'),
-    ];
+
     return Container(
       width: 350,
       color: theme.scaffoldBackgroundColor,
@@ -118,16 +108,22 @@ class AppDrawer extends StatelessWidget {
                           ),
                           onTap: index == 0
                               ? () {
+                                  RootInjectorWidget.of(context)
+                                      ?.applicationBloc
+                                      .applicationState
+                                      .selectedTopic = null;
                                   Navigator.pushNamed(context, PageRoutes.news);
                                 }
                               : index == 1
                                   ? () {
-                                      Navigator.pushNamed(
-                                          context, PageRoutes.bookmarked);
+                                      // Navigator.pushNamed(
+                                      //     context, PageRoutes.bookmarked);
+                                      ActionIndicator().getDialog(context, "Alert", "Work in progress!");
                                     }
                                   : () {
                                       // Navigator.pushNamed(
                                       //     context, PageRoutes.preferences);
+                                      ActionIndicator().getDialog(context, "Alert", "Work in progress!");
                                     },
                         );
                       }),
@@ -163,16 +159,19 @@ class AppDrawer extends StatelessWidget {
                                 case ConnectionState.active:
                                   return Center(
                                       child: CircularProgressIndicator(
-                                        color: theme.primaryColor,
-                                      ));
+                                    color: theme.primaryColor,
+                                  ));
                                 case ConnectionState.done:
                                   if (snapshot.hasError)
                                     return Text('Err: ${snapshot.error}');
                                   List<TopicDetails> topicList = snapshot.data!;
-                                  List<SuggestedTopics>? listOfSuggestedTopics = [];
+                                  List<SuggestedTopics>? listOfSuggestedTopics =
+                                      [];
                                   topicList.forEach((element) {
-                                    listOfSuggestedTopics.add(
-                                        SuggestedTopics(element.code!, element.title));
+                                    listOfSuggestedTopics.add(SuggestedTopics(
+                                        image: '',
+                                        title: element.title,
+                                        code: element.code!));
                                   });
                                   return ListView.builder(
                                       shrinkWrap: true,
@@ -180,6 +179,11 @@ class AppDrawer extends StatelessWidget {
                                       itemBuilder: (context, index) {
                                         return GestureDetector(
                                           onTap: () {
+                                            RootInjectorWidget.of(context)
+                                                    ?.applicationBloc
+                                                    .applicationState
+                                                    .selectedTopic =
+                                                listOfSuggestedTopics[index];
                                             Navigator.pushNamed(
                                                 context, PageRoutes.news,
                                                 arguments:

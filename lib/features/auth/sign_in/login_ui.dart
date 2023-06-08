@@ -3,6 +3,7 @@ import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
+import 'package:tek_capsule/widgets/action_indicator.dart';
 import 'package:tek_capsule/widgets/custom_button.dart';
 import 'package:tek_capsule/widgets/entry_field.dart';
 import 'package:tek_capsule/core/routes/routes.dart';
@@ -17,6 +18,8 @@ class SignInUI extends StatefulWidget {
 class _SignInUIState extends State<SignInUI> {
   final emailInputController = TextEditingController();
   final passwordInputController = TextEditingController();
+
+  _SignInUIState();
   // @override
   // void initState() {
   //   super.initState();
@@ -156,7 +159,15 @@ class _SignInUIState extends State<SignInUI> {
                         hasBorder: true,
                         textColor: Theme.of(context).primaryColor,
                         onTap: () {
-                          Navigator.pushNamed(context, PageRoutes.signUp);
+                          // Navigator.pushNamed(context, PageRoutes.signUp);
+                          final scaffoldkey = RootInjectorWidget.of(context)!
+                              .applicationBloc
+                              .globalscaffoldKey;
+                          final scaffoldState = scaffoldkey.currentState;
+                          if (scaffoldState != null) {
+                            scaffoldState.showSnackBar(ActionIndicator().getSnackBar(
+                                context, 'A feature in progress!.'));
+                          }
                         },
                       ),
                       CustomButton(
@@ -164,7 +175,10 @@ class _SignInUIState extends State<SignInUI> {
                         hasBorder: true,
                         textColor: Theme.of(context).primaryColor,
                         onTap: () {
-                          Navigator.pushNamed(context, PageRoutes.signUp);
+                          // Navigator.pushNamed(context, PageRoutes.signUp);
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //     getSnackBar(context, 'A feature in progress!.'));
+                          ActionIndicator().getDialog(context, "Alert", "Saved Successfully!");
                         },
                       )
                     ],
@@ -179,6 +193,21 @@ class _SignInUIState extends State<SignInUI> {
         slideCurve: Curves.linearToEaseOut,
       ),
     );
+  }
+
+  Future<AlertDialog?> getDialog(
+      BuildContext context, String title, String message) {
+    return showDialog<AlertDialog>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(title),
+            titleTextStyle: TextStyle(fontWeight: FontWeight.bold,color: Color.fromARGB(255, 63, 61, 62),fontSize: 20),
+            content: Text(message, style: TextStyle(fontWeight: FontWeight.normal),),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+          );
+        });
   }
 
   TextButton socialButton(String icon, String text) {
@@ -196,6 +225,24 @@ class _SignInUIState extends State<SignInUI> {
             .titleMedium!
             .copyWith(color: Theme.of(context).colorScheme.background),
       ),
+    );
+  }
+
+  SnackBar getSnackBar(BuildContext context, String message) {
+    return SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white, fontSize: 18),
+      ),
+      elevation: 15,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Color.fromARGB(255, 83, 78, 78),
+      action: SnackBarAction(
+          textColor: Color.fromARGB(255, 252, 137, 137),
+          label: 'Dismiss',
+          onPressed: (() {
+            ScaffoldMessenger.of(context).clearSnackBars();
+          })),
     );
   }
 }

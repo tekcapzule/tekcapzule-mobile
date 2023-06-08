@@ -2,9 +2,12 @@ import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:tek_capsule/business_logic/capsule_bloc.dart';
+import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/features/news/full_news.dart';
 import 'package:tek_capsule/infrastructure/model/capsule_details.dart';
+import 'package:tek_capsule/widgets/action_indicator.dart';
 import 'package:tek_capsule/widgets/app_drawer.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
 
@@ -128,17 +131,39 @@ class _NewsComponentState extends State<NewsComponent> {
                 case ConnectionState.done:
                   if (snapshot.hasError) return Text('Err: ${snapshot.error}');
                   List<CapsuleDetails> capsuleDetails = snapshot.data!;
-                  capsuleDetails[0].resourceUrl = 'https://www.tekcapsule.com/';
-                  capsuleDetails[1].resourceUrl = 'https://tekcapsule.blog/the-rise-of-artificial-intelligence-exploring-the-benefits-challenges-and-future-implications/';
-                  return getDashBoardFeedWidget(capsuleDetails, theme);
+                  final scaffoldkey = RootInjectorWidget.of(context)!
+                      .applicationBloc
+                      .globalscaffoldKey;
+                  final scaffoldState = scaffoldkey.currentState;
+                  if (capsuleDetails.length > 0) {
+                    capsuleDetails[0].resourceUrl =
+                        'https://www.tekcapsule.com/';
+                    capsuleDetails[1].resourceUrl =
+                        'https://tekcapsule.blog/the-rise-of-artificial-intelligence-exploring-the-benefits-challenges-and-future-implications/';
+                    if (scaffoldState != null) {
+                      SchedulerBinding.instance.addPostFrameCallback((_) {
+                        scaffoldState.showSnackBar(ActionIndicator()
+                            .getSnackBar(context, 'Topics fetched!'));
+                      });
+                    }
+                    return getDashBoardFeedWidget(capsuleDetails, theme);
+                  } else {
+                    if (scaffoldState != null) {
+                      SchedulerBinding.instance.addPostFrameCallback((_) {
+                        scaffoldState.showSnackBar(ActionIndicator()
+                            .getSnackBar(context, 'No topics available!'));
+                      });
+                    }
+                    return getDashBoardFeedWidget([], theme);
+                  }
               }
             }));
   }
 
   void loadWebPage({required String? url, required String? title}) {
     if (url == null) return;
-    Navigator.push(
-        context, CupertinoPageRoute(builder: (context) => FullNews(url, title!)));
+    Navigator.push(context,
+        CupertinoPageRoute(builder: (context) => FullNews(url, title!)));
   }
 
   PageView getDashBoardFeedWidget(

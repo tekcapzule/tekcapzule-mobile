@@ -11,9 +11,17 @@ class CapsuleBloc {
         gateway: config.capsule!.infra!.gateway!,
         region: config.capsule!.infra!.region!,
         stage: config.capsule!.infra!.stage!);
-    final result = await capsuleService.getMyFeed(["SWD", "blk"]);
-    List<CapsuleDetails>? capsuleList =
-        CapsuleDetails().toListOfCapsules(json.decode(result.body));
-    yield await Future.value(capsuleList);
+    final selectedTopic = ApplicationBloc().applicationState.selectedTopic;
+    if (selectedTopic != null) {
+      final result = await capsuleService.getMyFeed([selectedTopic.code!]);
+      List<CapsuleDetails>? capsuleList =
+          CapsuleDetails().toListOfCapsules(json.decode(result.body));
+      yield await Future.value(capsuleList);
+    } else {
+      final result = await capsuleService.getMyFeed(["SWD", "blk"]);
+      List<CapsuleDetails>? capsuleList =
+          CapsuleDetails().toListOfCapsules(json.decode(result.body));
+      yield await Future.value(capsuleList);
+    }
   }
 }

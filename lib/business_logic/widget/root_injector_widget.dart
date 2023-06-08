@@ -9,11 +9,10 @@ class RootInjectorWidget extends InheritedWidget {
 
   late ApplicationBloc applicationBloc;
   late AuthenticationService authService;
-  late GlobalKey<ScaffoldMessengerState> globalscaffoldKey;
 
   void init(GlobalKey<ScaffoldMessengerState> scaffoldKey) async {
     applicationBloc = ApplicationBloc();
-    globalscaffoldKey = scaffoldKey;
+    applicationBloc.globalscaffoldKey = scaffoldKey;
   }
 
   @override
