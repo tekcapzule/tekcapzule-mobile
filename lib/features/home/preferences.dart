@@ -66,8 +66,8 @@ class _PreferencesState extends State<Preferences> {
           Icons.nightlight_round,
           getTranslationOf('night_mode'),
           getTranslationOf('better_reading_experience')),
-      BlueContainerContent(Icons.public, getTranslationOf('language'),
-          getTranslationOf('select_preferred_language')),
+      // BlueContainerContent(Icons.public, getTranslationOf('language'),
+      //     getTranslationOf('select_preferred_language')),
       BlueContainerContent(
           Icons.notifications,
           getTranslationOf('notifications'),
@@ -75,179 +75,179 @@ class _PreferencesState extends State<Preferences> {
     ];
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: theme.primaryColor),
       ),
       body: FadedSlideAnimation(
-        Stack(
+        Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, PageRoutes.myProfile);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Samantha Smith',
-                      style: theme.textTheme.titleLarge,
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, PageRoutes.myProfile);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Samantha Smith',
+                            style: theme.textTheme.titleLarge?.copyWith(fontSize: 14),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              getTranslationOf('my_profile')!,
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        getTranslationOf('my_profile')!,
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold
+                  ),
+                  PositionedDirectional(
+                    end: 28,
+                    top: 8,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, PageRoutes.myProfile);
+                      },
+                      child: Material(
+                        elevation: 8,
+                        borderRadius: BorderRadius.circular(50),
+                        child: FadedScaleAnimation(
+                          CircleAvatar(
+                            child: Image.asset(
+                                'assets/profiles/change profile pic copy 3-1.png'),
+                            radius: 40,
+                          ),
+                          durationInMilliseconds: 800,
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            PositionedDirectional(
-              end: 28,
-              top: 8,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, PageRoutes.myProfile);
-                },
-                child: Material(
-                  elevation: 8,
-                  borderRadius: BorderRadius.circular(50),
-                  child: FadedScaleAnimation(
-                    CircleAvatar(
-                      child: Image.asset(
-                          'assets/profiles/change profile pic copy 3-1.png'),
-                      radius: 40,
+                  ),
+                  PositionedDirectional(
+                    end: 90,
+                    top: 24,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, PageRoutes.myProfile);
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: theme.colorScheme.background,
+                        child: Icon(
+                          Icons.camera_alt_sharp,
+                          color: theme.primaryColor,
+                          size: 16,
+                        ),
+                        radius: 16,
+                      ),
                     ),
-                    durationInMilliseconds: 800,
                   ),
-                ),
-              ),
-            ),
-            PositionedDirectional(
-              end: 90,
-              top: 24,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, PageRoutes.myProfile);
-                },
-                child: CircleAvatar(
-                  backgroundColor: theme.colorScheme.background,
-                  child: Icon(
-                    Icons.camera_alt_sharp,
-                    color: theme.primaryColor,
-                    size: 16,
-                  ),
-                  radius: 16,
-                ),
+
+                ],
               ),
             ),
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 30),
-                margin: EdgeInsets.only(top: 120),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).focusColor,
-                ),
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            ListTile(
-                              onTap: index == 1
-                                  ? () {
-                                      Navigator.pushNamed(
-                                          context, PageRoutes.language);
-                                    }
-                                  : () {},
-                              leading: Icon(
-                                _blueContainerContent[index].icon,
-                                color: Color(0xff3F4B61),
-                              ),
-                              title: Text(
-                                _blueContainerContent[index].title!,
-                                style: theme.textTheme.titleMedium!.copyWith(
-                                    color: Color(0xff3F4B61), fontSize: 24.0),
-                              ),
-                              subtitle: Text(
-                                _blueContainerContent[index].subtitle!,
-                                style: theme.textTheme.bodyLarge,
-                              ),
-                              trailing: index == 0
-                                  ? Switch(
-                                      activeColor: Colors.lightGreen,
-                                      value: _theme,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          _theme = value;
-                                        });
-                                        if (value)
-                                          _themeCubit.selectLightTheme();
-                                        else
-                                          _themeCubit.selectDarkTheme();
-                                      },
-                                    )
-                                  : index == 1
-                                      ? Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              getTranslationOf('english')! +
-                                                  ' ',
-                                              style: theme.textTheme.bodySmall!
-                                                  .copyWith(
-                                                color: whiteTextColor
-                                                    .withOpacity(0.7),
-                                              ),
-                                            ),
-                                            Icon(
-                                              Icons.keyboard_arrow_right,
-                                              color: iconColor,
-                                            ),
-                                          ],
-                                        )
-                                      : Switch(
-                                          activeColor: Colors.lightGreen,
-                                          value: notifications,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              notifications = !notifications;
-                                            });
-                                          },
-                                        ),
-                            ),
-                            SizedBox(
-                              height: 1,
-                              child: Center(
-                                child: Container(
-                                  margin: EdgeInsetsDirectional.only(
-                                      start: 1.0, end: 1.0),
-                                  height: 2,
-                                  color: Color(0xffE2E2E2),
+                child: Container(
+                  padding: EdgeInsets.only(top: 50),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ListView.builder(
+                        itemBuilder: (context, index) {
+                            return Column(
+
+                            children: [
+                              ListTile(
+                                onTap: index == 1
+                                    ? () {
+                                  Navigator.pushNamed(
+                                      context, PageRoutes.language);
+                                }
+                                    : () {},
+                                leading: Icon(
+                                  _blueContainerContent[index].icon,
+                                  color: Color(0xff3F4B61),
+                                ),
+                                title: Text(
+                                  _blueContainerContent[index].title!,
+                                  style: theme.textTheme.titleMedium!.copyWith(
+                                      color: Color(0xff3F4B61), fontSize: 16.0),
+                                ),
+                                subtitle: Text(
+                                  _blueContainerContent[index].subtitle!,
+                                  style: theme.textTheme.bodySmall,
+                                ),
+                                trailing: index == 0
+                                    ? Switch(
+                                  activeColor: Colors.lightGreen,
+                                  value: _theme,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _theme = value;
+                                    });
+                                    if (value)
+                                      _themeCubit.selectLightTheme();
+                                    else
+                                      _themeCubit.selectDarkTheme();
+                                  },
+                                )
+                                    : index == 1
+                                    ? Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      getTranslationOf('english')! +
+                                          ' ',
+                                      style: theme.textTheme.bodySmall!
+                                          .copyWith(
+                                        color: whiteTextColor
+                                            .withOpacity(0.7),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.keyboard_arrow_right,
+                                      color: iconColor,
+                                    ),
+                                  ],
+                                )
+                                    : Switch(
+                                  activeColor: Colors.lightGreen,
+                                  value: notifications,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      notifications = !notifications;
+                                    });
+                                  },
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 25.0,)
-                          ],
-                        );
-                      },
-                      itemCount: _blueContainerContent.length,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.all(8),
-                    ),
-                  ],
+
+
+                            ],
+                          );
+                        },
+                        itemCount: _blueContainerContent.length,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.all(5),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
           ],
         ),
         beginOffset: Offset(0, 0.3),

@@ -18,8 +18,9 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap as void Function()?,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 13, horizontal: 16),
-        margin: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        width: MediaQuery.of(context).size.width / 1.2,
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         decoration: hasBorder? 
         BoxDecoration(
             border: Border.all(color: Theme.of(context).primaryColor),
@@ -33,8 +34,7 @@ class CustomButton extends StatelessWidget {
               : text!.toUpperCase(),
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: textColor,
-                fontSize: 16,
-                letterSpacing: 2,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
           textAlign: TextAlign.center,

@@ -54,14 +54,20 @@ class _SignInUIState extends State<SignInUI> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: FadedSlideAnimation(
         Column(
           children: [
             Container(
-              color: theme.focusColor,
+              color: Colors.white,
               child: Container(
-                  margin: EdgeInsets.all(16.0),
-                  child: Image.asset("assets/logo_main.png")),
+                  color: Colors.white,
+                  width: MediaQuery.of(context).size.width / 2,
+                  height: 150,
+                  child: Image.asset(
+                    "assets/logo_main.png",
+                    fit: BoxFit.contain,
+                  )),
             ),
             Expanded(
               child: Container(
@@ -71,16 +77,15 @@ class _SignInUIState extends State<SignInUI> {
                 ),
                 child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        height: 24,
-                      ),
-                      Padding(
+                              Padding(
                         padding: EdgeInsets.only(left: 15.0, top: 25.0),
-                        child: Text(getTranslationOf('sign_in_now')!,
-                            textAlign: TextAlign.left,
-                            style: Theme.of(context).textTheme.titleMedium),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(getTranslationOf('sign_in_now')!,
+                                             style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 16)),
+                        ),
                       ),
                       EntryField(
                         label: getTranslationOf('email'),
@@ -97,89 +102,104 @@ class _SignInUIState extends State<SignInUI> {
                       SizedBox(
                         height: 16,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, PageRoutes.signUp);
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: Text(
-                            'New User?',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold),
-                          ),
+                      Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, PageRoutes.signUp);
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 15),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Register Here',
+                                    textAlign: TextAlign.right,
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            CustomButton(
+                              textColor: Theme.of(context).colorScheme.background,
+                              onTap: () async {
+                                final config =
+                                await ApplicationBloc.getAppConfiguration('dev');
+                                if (config.features!.awsCognito!) {
+                                  final result = RootInjectorWidget.of(context)!
+                                      .authService
+                                      .signInUser(emailInputController.text,
+                                      passwordInputController.text);
+                                  result!.then((value) => {
+                                    if (value.isSignedIn)
+                                      {
+                                        Navigator.pushNamed(
+                                            context, PageRoutes.news)
+                                      }
+                                    else
+                                      {
+                                        AlertDialog(
+                                          title: Text("TekCapsule Alert"),
+                                          content:
+                                          Text("User Not Authenticated."),
+                                        ),
+                                        emailInputController.clear(),
+                                        passwordInputController.clear(),
+                                      }
+                                  });
+                                } else {
+                                  Navigator.pushNamed(context, PageRoutes.news);
+                                }
+                              },
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(getTranslationOf('or_continue_with')!,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                  fontSize: 14
+                                )),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            CustomButton(
+                              text: 'Facebook',
+                              hasBorder: true,
+                              textColor: Theme.of(context).primaryColor,
+                              onTap: () {
+                                // Navigator.pushNamed(context, PageRoutes.signUp);
+                                final scaffoldkey = RootInjectorWidget.of(context)!
+                                    .applicationBloc
+                                    .globalscaffoldKey;
+                                final scaffoldState = scaffoldkey.currentState;
+                                if (scaffoldState != null) {
+                                  scaffoldState.showSnackBar(ActionIndicator()
+                                      .getSnackBar(
+                                      context, 'A feature in progress!.'));
+                                }
+                              },
+                            ),
+                            CustomButton(
+                              text: 'Google',
+                              hasBorder: true,
+                              textColor: Theme.of(context).primaryColor,
+                              onTap: () {
+                                // Navigator.pushNamed(context, PageRoutes.signUp);
+                                // ScaffoldMessenger.of(context).showSnackBar(
+                                //     getSnackBar(context, 'A feature in progress!.'));
+                                ActionIndicator().getDialog(
+                                    context, "Alert", "Saved Successfully!");
+                              },
+                            )
+                          ],
                         ),
-                      ),
-                      CustomButton(
-                        textColor: Theme.of(context).colorScheme.background,
-                        onTap: () async {
-                          final config =
-                              await ApplicationBloc.getAppConfiguration('dev');
-                          if (config.features!.awsCognito!) {
-                            final result = RootInjectorWidget.of(context)!
-                                .authService
-                                .signInUser(emailInputController.text,
-                                    passwordInputController.text);
-                            result!.then((value) => {
-                                  if (value.isSignedIn)
-                                    {
-                                      Navigator.pushNamed(
-                                          context, PageRoutes.news)
-                                    }
-                                  else
-                                    {
-                                      AlertDialog(
-                                        title: Text("TekCapsule Alert"),
-                                        content:
-                                            Text("User Not Authenticated."),
-                                      ),
-                                      emailInputController.clear(),
-                                      passwordInputController.clear(),
-                                    }
-                                });
-                          } else {
-                            Navigator.pushNamed(context, PageRoutes.news);
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Text(getTranslationOf('or_continue_with')!,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.titleSmall),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      CustomButton(
-                        text: 'Facebook',
-                        hasBorder: true,
-                        textColor: Theme.of(context).primaryColor,
-                        onTap: () {
-                          // Navigator.pushNamed(context, PageRoutes.signUp);
-                          final scaffoldkey = RootInjectorWidget.of(context)!
-                              .applicationBloc
-                              .globalscaffoldKey;
-                          final scaffoldState = scaffoldkey.currentState;
-                          if (scaffoldState != null) {
-                            scaffoldState.showSnackBar(ActionIndicator().getSnackBar(
-                                context, 'A feature in progress!.'));
-                          }
-                        },
-                      ),
-                      CustomButton(
-                        text: 'Google',
-                        hasBorder: true,
-                        textColor: Theme.of(context).primaryColor,
-                        onTap: () {
-                          // Navigator.pushNamed(context, PageRoutes.signUp);
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //     getSnackBar(context, 'A feature in progress!.'));
-                          ActionIndicator().getDialog(context, "Alert", "Saved Successfully!");
-                        },
                       )
                     ],
                   ),
@@ -202,8 +222,14 @@ class _SignInUIState extends State<SignInUI> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(title),
-            titleTextStyle: TextStyle(fontWeight: FontWeight.bold,color: Color.fromARGB(255, 63, 61, 62),fontSize: 20),
-            content: Text(message, style: TextStyle(fontWeight: FontWeight.normal),),
+            titleTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 63, 61, 62),
+                fontSize: 20),
+            content: Text(
+              message,
+              style: TextStyle(fontWeight: FontWeight.normal),
+            ),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20))),
           );
@@ -232,7 +258,7 @@ class _SignInUIState extends State<SignInUI> {
     return SnackBar(
       content: Text(
         message,
-        style: TextStyle(color: Colors.white, fontSize: 18),
+        style: TextStyle(color: Colors.white, fontSize: 16),
       ),
       elevation: 15,
       behavior: SnackBarBehavior.floating,

@@ -13,7 +13,7 @@ class ActionIndicator {
     return SnackBar(
       content: Text(
         message,
-        style: TextStyle(color: Colors.white, fontSize: 18),
+        style: TextStyle(color: Colors.white, fontSize: 16),
       ),
       elevation: 15,
       behavior: SnackBarBehavior.floating,

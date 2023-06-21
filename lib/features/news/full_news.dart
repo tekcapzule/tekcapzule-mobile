@@ -24,14 +24,14 @@ class _FullNewsState extends State<FullNews> {
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
       body: Container(
-        padding: EdgeInsets.only(top: 40, bottom: 20, left: 5, right: 10),
+       padding: EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 10),
             color: Colors.black,
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                       children: [
                 IconButton(
                         icon: Icon(
                           Icons.keyboard_arrow_left_sharp,
@@ -40,16 +40,20 @@ class _FullNewsState extends State<FullNews> {
                         onPressed: () {
                           Navigator.pop(context);
                         }),
-                    Spacer(),
-                    Center(
-                      child: Text(
-                        title,
-                        style: theme.textTheme.bodySmall!.copyWith(
-                          color: whiteTextColor,
-                        ),
-                      ),
+
+                Expanded(
+                  child: Text(
+                    title,
+                    style: theme.textTheme.bodySmall!.copyWith(
+                      color: whiteTextColor,
+
                     ),
-                    Spacer(),
+                    softWrap: false,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+
                     Icon(
                       Icons.more_vert,
                       color: whiteTextColor,

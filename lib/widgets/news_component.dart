@@ -32,7 +32,7 @@ class _NewsComponentState extends State<NewsComponent> {
     var theme = Theme.of(context);
     return Scaffold(
         bottomNavigationBar: Container(
-          padding: EdgeInsets.only(left: 20, right: 20, bottom: 36, top: 24),
+          padding: EdgeInsets.only(left: 20, right: 20, bottom: 18, top: 18),
           decoration: BoxDecoration(
             color: Color(0xff3A3A3A),
           ),
@@ -107,13 +107,14 @@ class _NewsComponentState extends State<NewsComponent> {
         backgroundColor: theme.colorScheme.background,
         drawer: AppDrawer(),
         appBar: AppBar(
+          backgroundColor: Colors.white,
           centerTitle: true,
           iconTheme: IconThemeData(color: theme.primaryColor),
           title: Text(
             widget.title!,
             style: theme.textTheme.titleMedium!.copyWith(
               color: Color.fromARGB(255, 102, 101, 101),
-              fontSize: 18,
+              fontSize: 16,
             ),
           ),
         ),
@@ -175,272 +176,192 @@ class _NewsComponentState extends State<NewsComponent> {
         itemBuilder: (context, index) {
           return FadedSlideAnimation(
             Column(
-              // physics: NeverScrollableScrollPhysics(),
-              // padding: EdgeInsets.zero,
-              children: [
-                Column(
-                  children: [],
-                ),
-                SizedBox(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        // PositionedDirectional(
-                        //   end: 24,
-                        //   top: 40,
-                        //   child: Image.asset(
-                        //     'assets/ic_swipeleft.png',
-                        //     scale: 2,
-                        //   ),
-                        // ),
-
-                        Stack(
+                children: [
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height / 3,
+                      child: Image.network(
+                        capsuleData[index].imageUrl!,
+                        fit: BoxFit.cover
+                                         ),
+                    ),
+                    Positioned(
+                      width: MediaQuery.of(context).size.width,
+                           child: Padding(
+                        padding:const EdgeInsets.only(left: 0, right: 0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(
-                              width: double.infinity,
-                              height: 400,
-                              child: Image.network(
-                                capsuleData[index].imageUrl!,
-                                fit: BoxFit.cover,
+                              width: 75,
+                              height: 30,
+                              child: Container(
+                                color: theme.primaryColor,
+                                child: Center(
+                                  child: Text(
+                                      capsuleData[index].tags![1],
+                                      style: theme
+                                          .textTheme.titleMedium!
+                                          .copyWith(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      )),
+                                ),
                               ),
                             ),
-                            Positioned(
-                              width: MediaQuery.of(context).size.width,
-                              top: 330,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
+                            SizedBox(
+                              width: 100,
+                              height: 30,
+                              child: Container(
+                                color: Colors.black.withOpacity(0.5),
                                 child: Row(
-                                  mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceAround,
                                   children: [
-                                    SizedBox(
-                                      width: 75,
-                                      height: 30,
-                                      child: Container(
-                                        color: theme.primaryColor,
-                                        child: Center(
-                                          child: Text(
-                                              capsuleData[index].tags![1],
-                                              style: theme
-                                                  .textTheme.titleMedium!
-                                                  .copyWith(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                              )),
-                                        ),
-                                      ),
+                                    Icon(
+                                      Icons.more_time_outlined,
+                                      color:
+                                          theme.colorScheme.background,
+                                      size: 14,
                                     ),
-                                    SizedBox(
-                                      width: 100,
-                                      height: 30,
-                                      child: Container(
-                                        color: Colors.black.withOpacity(0.5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Icon(
-                                              Icons.more_time_outlined,
-                                              color:
-                                                  theme.colorScheme.background,
-                                              size: 18,
-                                            ),
-                                            Text(
-                                                capsuleData[index]
-                                                    .duration!
-                                                    .toString(),
-                                                style: theme
-                                                    .textTheme.titleMedium!
-                                                    .copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                ))
-                                          ],
-                                        ),
-                                      ),
-                                    )
+                                    Text(
+                                        capsuleData[index]
+                                            .duration!
+                                            .toString(),
+                                        style: theme
+                                            .textTheme.titleMedium!
+                                            .copyWith(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ))
                                   ],
                                 ),
                               ),
                             )
                           ],
                         ),
+                      ),
+                    ),
 
-                        // PositionedDirectional(
-                        //   bottom: 0,
-                        //   start: 0,
-                        //   end: 0,
-                        //   child: Container(
-                        //     height: 20,
-                        //     decoration: BoxDecoration(
-                        //       color: theme.backgroundColor,
-                        //     ),
-                        //   ),
-                        // ),
-                        Column(
-                          children: [
-                            SizedBox(
-                              height: 8,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                loadWebPage(
-                                    url: capsuleData[index].resourceUrl!,
-                                    title: capsuleData[index].title!);
-                              },
-                              child: FadedSlideAnimation(
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 15.0),
-                                    child: Text(
-                                      capsuleData[index].title!,
-                                      style:
-                                          theme.textTheme.titleMedium!.copyWith(
-                                        fontSize: 18,
-                                      ),
-                                      textAlign: TextAlign.left,
+                  ],
+                ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 8,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              loadWebPage(
+                                  url: capsuleData[index].resourceUrl!,
+                                  title: capsuleData[index].title!);
+                            },
+                            child: FadedSlideAnimation(
+                              SizedBox(
+                                width: double.infinity,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 15.0),
+                                  child: Text(
+                                    capsuleData[index].title!,
+                                    style:
+                                    theme.textTheme.titleMedium!.copyWith(
+                                      fontSize: 16,
                                     ),
+                                    textAlign: TextAlign.left,
                                   ),
                                 ),
-                                beginOffset: Offset(0, 3),
-                                endOffset: Offset(0, 0),
-                                slideCurve: Curves.linearToEaseOut,
                               ),
+                              beginOffset: Offset(0, 3),
+                              endOffset: Offset(0, 0),
+                              slideCurve: Curves.linearToEaseOut,
                             ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            GestureDetector(
-                              onTap: () {},
-                              child: FadedSlideAnimation(
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 15.0),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            capsuleData[index].author!,
-                                            style: theme.textTheme.titleMedium!
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          GestureDetector(
+                            onTap: () {},
+                            child: FadedSlideAnimation(
+                              SizedBox(
+                                width: double.infinity,
+                                child: Padding(
+                                    padding:
+                                    const EdgeInsets.only(left: 15.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          capsuleData[index].author!,
+                                          style: theme.textTheme.titleMedium!
+                                              .copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0),
+                                          child: Text(
+                                            capsuleData[index].publishedDate!,
+                                            style: theme
+                                                .textTheme.titleMedium!
                                                 .copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 15,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 14,
                                             ),
                                             textAlign: TextAlign.left,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0),
-                                            child: Text(
-                                              capsuleData[index].publishedDate!,
-                                              style: theme
-                                                  .textTheme.titleMedium!
-                                                  .copyWith(
-                                                fontWeight: FontWeight.normal,
-                                                fontSize: 14,
-                                              ),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                          )
-                                        ],
-                                      )),
+                                        )
+                                      ],
+                                    )),
+                              ),
+                              beginOffset: Offset(0, 3),
+                              endOffset: Offset(0, 0),
+                              slideCurve: Curves.linearToEaseOut,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              loadWebPage(
+                                  url: capsuleData[index].resourceUrl!,
+                                  title: capsuleData[index].title!);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
+                              child: FadedSlideAnimation(
+                                Text(
+                                  capsuleData[index].description!,
+                                  style: theme.textTheme.titleSmall!.copyWith(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14,
+                                  ),
+                                  softWrap: false,
+                                  maxLines: 10,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 beginOffset: Offset(0, 3),
                                 endOffset: Offset(0, 0),
                                 slideCurve: Curves.linearToEaseOut,
                               ),
                             ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                loadWebPage(
-                                    url: capsuleData[index].resourceUrl!,
-                                    title: capsuleData[index].title!);
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                ),
-                                child: FadedSlideAnimation(
-                                  Text(
-                                    capsuleData[index].description!,
-                                    style: theme.textTheme.titleSmall!.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  beginOffset: Offset(0, 3),
-                                  endOffset: Offset(0, 0),
-                                  slideCurve: Curves.linearToEaseOut,
-                                ),
-                              ),
-                            ),
+                          ),
 
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     Navigator.pushNamed(
-                            //         context, PageRoutes.comment);
-                            //   },
-                            //   child: Padding(
-                            //     padding: EdgeInsets.symmetric(
-                            //       horizontal: 16,
-                            //     ),
-                            //     child: Row(
-                            //       children: [
-                            //         FadedScaleAnimation(
-                            //           Image.asset(
-                            //             'assets/emojis/ic_love.png',
-                            //             scale: 3.5,
-                            //           ),
-                            //           durationInMilliseconds: 700,
-                            //         ),
-                            //         Text(
-                            //           '  ' +
-                            //               '1.8k ' +
-                            //               getTranslationOf('reacted')! +
-                            //               '   ',
-                            //           style: theme.textTheme.caption,
-                            //         ),
-                            //         Icon(
-                            //           Icons.circle,
-                            //           size: 5,
-                            //           color: theme.primaryColor,
-                            //         ),
-                            //         Text(
-                            //           '   ' +
-                            //               '59 ' +
-                            //               getTranslationOf('comments')!,
-                            //           style: theme.textTheme.caption,
-                            //         ),
-                            //         Spacer(),
-                            //         Expanded(
-                            //           flex: 3,
-                            //           child: Text(
-                            //             getTranslationOf(
-                            //                 'the_time_express')!,
-                            //             style: theme.textTheme.caption!
-                            //                 .copyWith(
-                            //               color: theme.primaryColor,
-                            //             ),
-                            //             overflow: TextOverflow.ellipsis,
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                      ],
+
+                        ],
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
             beginOffset: Offset(0, 0.3),

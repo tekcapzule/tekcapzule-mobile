@@ -64,14 +64,14 @@ class AppDrawer extends StatelessWidget {
                     children: [
                       Image.asset(
                         'assets/profiles/change profile pic copy 3-1.png',
-                        scale: 3,
+                        scale: 5,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 12),
                         child: Text(
                           'Samantha\nSmith',
                           style: theme.textTheme.titleMedium!
-                              .copyWith(fontSize: 20),
+                              .copyWith(fontSize: 18),
                         ),
                       ),
                       Spacer(),
@@ -95,16 +95,18 @@ class AppDrawer extends StatelessWidget {
                           EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                       shrinkWrap: true,
                       itemCount: _drawerItems.length,
+                      itemExtent: 50.0,
                       itemBuilder: (context, index) {
                         return ListTile(
                           leading: Icon(
                             _drawerItems[index].icon,
                             color: theme.primaryColor,
+                            size: 20,
                           ),
                           title: Text(
                             _drawerItems[index].name!,
                             style: theme.textTheme.titleMedium!
-                                .copyWith(fontSize: 18),
+                                .copyWith(fontSize: 14),
                           ),
                           onTap: index == 0
                               ? () {
@@ -143,9 +145,9 @@ class AppDrawer extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'TOPICS',
+                          'Topics',
                           style: theme.textTheme.titleMedium!
-                              .copyWith(fontSize: 18),
+                              .copyWith(fontSize: 16),
                         ),
                       ),
                       Container(
@@ -191,8 +193,8 @@ class AppDrawer extends StatelessWidget {
                                                         .title);
                                           },
                                           child: Container(
-                                            padding: EdgeInsets.all(12),
-                                            margin: EdgeInsets.all(8),
+                                            padding: EdgeInsets.all(10),
+                                            margin: EdgeInsets.all(6),
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(12),
@@ -209,7 +211,7 @@ class AppDrawer extends StatelessWidget {
                                                       .title!,
                                                   style: theme
                                                       .textTheme.titleMedium!
-                                                      .copyWith(fontSize: 16.0),
+                                                      .copyWith(fontSize: 14.0),
                                                 ),
                                               ],
                                             ),
