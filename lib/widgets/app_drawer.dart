@@ -30,15 +30,14 @@ class AppDrawer extends StatelessWidget {
       DrawerItems(Icons.explore, 'MY FEED'),
       DrawerItems(Icons.bookmark_added, 'BOOKMARK'),
       DrawerItems(Icons.speaker_notes, 'TRENDING'),
-      DrawerItems(Icons.book_rounded, 'EDITORS PICK'),
+     // DrawerItems(Icons.book_rounded, 'EDITORS PICK'),
     ];
 
     return Container(
       width: 350,
       color: theme.scaffoldBackgroundColor,
       child: Drawer(
-        child: FadedSlideAnimation(
-          Container(
+        child: Container(
             color: theme.scaffoldBackgroundColor,
             child: ListView(
               children: [
@@ -82,7 +81,7 @@ class AppDrawer extends StatelessWidget {
                         child: Icon(
                           Icons.settings,
                           color: theme.primaryColor,
-                          size: 35,
+                          size: 30,
                         ),
                       )
                     ],
@@ -160,9 +159,14 @@ class AppDrawer extends StatelessWidget {
                                 case ConnectionState.waiting:
                                 case ConnectionState.active:
                                   return Center(
-                                      child: CircularProgressIndicator(
+                                      child: SizedBox(
+                                        width: 25,
+                                        height: 25,
+                                        child: CircularProgressIndicator(
                                     color: theme.primaryColor,
-                                  ));
+                                          strokeWidth: 2.6,
+                                  ),
+                                      ));
                                 case ConnectionState.done:
                                   if (snapshot.hasError)
                                     return Text('Err: ${snapshot.error}');
@@ -238,10 +242,6 @@ class AppDrawer extends StatelessWidget {
               ],
             ),
           ),
-          beginOffset: Offset(0, 0.3),
-          endOffset: Offset(0, 0),
-          slideCurve: Curves.linearToEaseOut,
-        ),
       ),
     );
   }

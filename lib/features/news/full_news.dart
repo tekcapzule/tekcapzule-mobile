@@ -24,7 +24,7 @@ class _FullNewsState extends State<FullNews> {
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
       body: Container(
-       padding: EdgeInsets.only(top: 10, bottom: 10, left: 5, right: 10),
+       padding: EdgeInsets.only(top: 35, bottom: 10, left: 5, right: 10),
             color: Colors.black,
         child: Column(
           children: [

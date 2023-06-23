@@ -32,7 +32,7 @@ class _MyProfileState extends State<MyProfile> {
                     alignment: Alignment.topRight,
                     child: Image.asset(
                       'assets/headerbg.png',
-                      height: MediaQuery.of(context).size.height / 3.6,
+                      height: MediaQuery.of(context).size.height / 4,
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -40,13 +40,12 @@ class _MyProfileState extends State<MyProfile> {
                     textDirection: Directionality.of(context),
                     start: 10,
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.only(
-                          start: 15, top: 30),
+                      padding:
+                          const EdgeInsetsDirectional.only(start: 15, top: 30),
                       child: Text(
                         context.getTranslationOf('my_profile')!,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                            fontSize: 12
-                        ),
+                        style:
+                            theme.textTheme.titleLarge?.copyWith(fontSize: 12),
                       ),
                     ),
                   ),
@@ -55,14 +54,14 @@ class _MyProfileState extends State<MyProfile> {
                     start: 10,
                     top: 44,
                     child: Padding(
-                      padding: const EdgeInsetsDirectional.only(
-                          start: 15, top: 16),
+                      padding:
+                          const EdgeInsetsDirectional.only(start: 15, top: 16),
                       child: Text(
-                          context.getTranslationOf('everything_about_us')!,
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.titleSmall?.copyWith(
-                              fontSize: 12
-                          ),),
+                        context.getTranslationOf('everything_about_us')!,
+                        textAlign: TextAlign.center,
+                        style:
+                            theme.textTheme.titleSmall?.copyWith(fontSize: 12),
+                      ),
                     ),
                   ),
                   PositionedDirectional(
@@ -99,72 +98,59 @@ class _MyProfileState extends State<MyProfile> {
               ),
               Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.background,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    ),
+                  padding: EdgeInsets.only(left: 10),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(context.getTranslationOf('full_name')!,
+                              style: theme.textTheme.bodyLarge),
+                        ),
+                        subtitle: Text(
+                          'Samantha Smith',
+                        ),
+                      ),
+                      ListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            context.getTranslationOf('email_address')!,
+                            style: theme.textTheme.bodyLarge,
+                          ),
+                        ),
+                        subtitle: Text('samantha@mail.com'),
+                      ),
+                      ListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            context.getTranslationOf('phone_number')!,
+                            style: theme.textTheme.bodyLarge,
+                          ),
+                        ),
+                        subtitle: Text('+1 987 654 3210'),
+                      ),
+                    ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                         children: [
-                        ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              context.getTranslationOf('full_name')!,
-                              style: theme.textTheme.bodyLarge
-                            ),
-                          ),
-                          subtitle: Text(
-                            'Samantha Smith',
-
-                          ),
-                        ),
-                             ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              context.getTranslationOf('email_address')!,
-                              style: theme.textTheme.bodyLarge,
-                            ),
-                          ),
-                          subtitle: Text('samantha@mail.com'),
-                        ),
-                                     ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              context.getTranslationOf('phone_number')!,
-                              style: theme.textTheme.bodyLarge,
-                            ),
-                          ),
-                          subtitle: Text('+1 987 654 3210'),
-                        ),
-
-                        CustomButton(
-                          text: context
-                              .getTranslationOf('logout')!
-                              .toUpperCase(),
-                          onTap: () async {
-                            final config =
-                                await ApplicationBloc.getAppConfiguration(
-                                    'dev');
-                            if (config.features!.awsCognito!) {
-                              await RootInjectorWidget.of(context)!
-                                  .authService
-                                  .signOutUser();
-                              Navigator.pushNamed(context, PageRoutes.signIn);
-                            } else {
-                              Navigator.pushNamed(context, PageRoutes.signIn);
-                            }
-                          },
-                        ),
-
-                      ],
-                    ),
-                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: CustomButton(
+                  text: context.getTranslationOf('logout')!.toUpperCase(),
+                  onTap: () async {
+                    final config =
+                        await ApplicationBloc.getAppConfiguration('dev');
+                    if (config.features!.awsCognito!) {
+                      await RootInjectorWidget.of(context)!
+                          .authService
+                          .signOutUser();
+                      Navigator.pushNamed(context, PageRoutes.signIn);
+                    } else {
+                      Navigator.pushNamed(context, PageRoutes.signIn);
+                    }
+                  },
                 ),
               ),
             ],

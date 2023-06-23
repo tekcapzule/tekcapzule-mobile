@@ -96,20 +96,21 @@ class _RegisterUIState extends State<RegisterUI> {
     var theme = Theme.of(context);
     return FadedSlideAnimation(
       Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           toolbarHeight: 30,
-          backgroundColor: theme.focusColor,
-          shadowColor: theme.focusColor,
-          foregroundColor: theme.focusColor,
           elevation: 0.0,
-          bottomOpacity: 0.0,
           iconTheme: IconThemeData(color: theme.primaryColor),
         ),
         body: Column(
           children: [
             Container(
               color: Colors.white,
-              child: Container(child: Image.asset("assets/vct_register.png")),
+              child: Container(
+                  color: Colors.white,
+                  width: MediaQuery.of(context).size.width / 2,
+                  height: 90,
+                  child: Image.asset("assets/vct_register.png")),
             ),
             SizedBox(
               height: 1,
@@ -122,39 +123,39 @@ class _RegisterUIState extends State<RegisterUI> {
               ),
             ),
             Expanded(
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.68,
-                padding: EdgeInsets.symmetric(vertical: 5),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.background,
-                ),
-                child: ListView(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 15.0, bottom: 10),
-                          child: Text(
-                            getTranslationOf('register')!,
-                            style: theme.textTheme.titleMedium,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15.0),
-                          child: Text(
-                            getTranslationOf('in_less_than')!,
-                            textAlign: TextAlign.left,
-                            style: theme.textTheme.titleSmall,
-                          ),
-                        ),
-                      ],
+              flex: 1,
+              child:
+              Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15, top: 20),
+                      child: Text(
+                        getTranslationOf('register')!,
+                        style: theme.textTheme.titleMedium?.copyWith(fontSize: 14),
+                      ),
                     ),
+                  ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15, top: 10),
+                      child: Text(
+                        getTranslationOf('in_less_than')!,
+                        textAlign: TextAlign.left,
+                        style: theme.textTheme.titleSmall?.copyWith(fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: SingleChildScrollView(
+                child: Column(
+                children: [
                     EntryField(
                       label: getTranslationOf('full_name'),
                       hint: getTranslationOf('enter_full_name'),
@@ -181,77 +182,56 @@ class _RegisterUIState extends State<RegisterUI> {
                       hint: 'Date of birth (dd/MM/YYYY)',
                       textController: dobController,
                     ),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(15, 15, 50, 00),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20.0),
-                                child: Text(
-                                  'Gender',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              add_radio_button(0, 'Male'),
-                              add_radio_button(1, 'Female'),
-                              add_radio_button(2, 'Others'),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Text(
-                        getTranslationOf('we_will_send')!,
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.titleMedium,
-                      ),
-                    ),
-                    CustomButton(
-                      textColor: Theme.of(context).colorScheme.background,
-                      onTap: () async {
-                        final config =
-                            await ApplicationBloc.getAppConfiguration('dev');
-                        if (config.features!.awsCognito!) {
-                          final result = await RootInjectorWidget.of(context)!
-                              .authService
-                              .signUpUser(
-                                  nameController.text,
-                                  emailController.text,
-                                  pwdController.text,
-                                  phoneController.text,
-                                  dobController.text,
-                                  selectGenderValue.toString());
-                          if (result!.isSignUpComplete) {
-                            Navigator.pushNamed(
-                              context,
-                              PageRoutes.verification,
-                              arguments: emailController.text,
-                            );
-                          }
-                        } else {
-                          Navigator.pushNamed(
-                              context,
-                              PageRoutes.verification,
-                              arguments: 'empty',
-                            );
-                        }
-                      },
-                    ),
+
                   ],
                 ),
               ),
-            )
+            ),
+            Expanded(
+              flex: 2,
+                child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    getTranslationOf('we_will_send')!,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.subtitle1?.copyWith(fontSize: 12),
+                  ),
+                ),
+                CustomButton(
+                  textColor: Theme.of(context).colorScheme.background,
+                  onTap: () async {
+                    final config =
+                    await ApplicationBloc.getAppConfiguration('dev');
+                    if (config.features!.awsCognito!) {
+                      final result = await RootInjectorWidget.of(context)!
+                          .authService
+                          .signUpUser(
+                          nameController.text,
+                          emailController.text,
+                          pwdController.text,
+                          phoneController.text,
+                          dobController.text,
+                          selectGenderValue.toString());
+                      if (result!.isSignUpComplete) {
+                        Navigator.pushNamed(
+                          context,
+                          PageRoutes.verification,
+                          arguments: emailController.text,
+                        );
+                      }
+                    } else {
+                      Navigator.pushNamed(
+                        context,
+                        PageRoutes.verification,
+                        arguments: 'empty',
+                      );
+                    }
+                  },
+                )
+              ],
+            ))
           ],
         ),
       ),

@@ -17,21 +17,19 @@ class EntryField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 15.0),
+      padding: const EdgeInsets.only(left: 30.0, right: 30.0, bottom: 20),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label!,
-            style: TextStyle(
-                color: Theme.of(context).focusColor,
-                fontWeight: FontWeight.w500),
-            textAlign: TextAlign.left,
-          ),
+          // Text(
+          //   label!,
+          //   style: TextStyle(
+          //       color: Colors.black,),
+          //   textAlign: TextAlign.left,
+          // ),
           TextField(
             decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
+                hintStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
                       fontSize: 14,
                     )),
                     obscureText: hideText,

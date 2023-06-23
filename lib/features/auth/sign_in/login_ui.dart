@@ -20,6 +20,7 @@ class _SignInUIState extends State<SignInUI> {
   final passwordInputController = TextEditingController();
 
   _SignInUIState();
+
   // @override
   // void initState() {
   //   super.initState();
@@ -59,6 +60,7 @@ class _SignInUIState extends State<SignInUI> {
         Column(
           children: [
             Container(
+              padding: EdgeInsets.only(top: 20),
               color: Colors.white,
               child: Container(
                   color: Colors.white,
@@ -69,141 +71,128 @@ class _SignInUIState extends State<SignInUI> {
                     fit: BoxFit.contain,
                   )),
             ),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                              Padding(
-                        padding: EdgeInsets.only(left: 15.0, top: 25.0),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(getTranslationOf('sign_in_now')!,
-                                             style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 16)),
-                        ),
-                      ),
-                      EntryField(
-                        label: getTranslationOf('email'),
-                        hint: getTranslationOf('enter_email'),
-                        textController: emailInputController,
-                        hideText: false,
-                      ),
-                      EntryField(
-                        label: getTranslationOf('password'),
-                        hint: getTranslationOf('enter_password'),
-                        textController: passwordInputController,
-                        hideText: true,
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, PageRoutes.signUp);
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 15),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Register Here',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            CustomButton(
-                              textColor: Theme.of(context).colorScheme.background,
-                              onTap: () async {
-                                final config =
-                                await ApplicationBloc.getAppConfiguration('dev');
-                                if (config.features!.awsCognito!) {
-                                  final result = RootInjectorWidget.of(context)!
-                                      .authService
-                                      .signInUser(emailInputController.text,
-                                      passwordInputController.text);
-                                  result!.then((value) => {
-                                    if (value.isSignedIn)
-                                      {
-                                        Navigator.pushNamed(
-                                            context, PageRoutes.news)
-                                      }
-                                    else
-                                      {
-                                        AlertDialog(
-                                          title: Text("TekCapsule Alert"),
-                                          content:
-                                          Text("User Not Authenticated."),
-                                        ),
-                                        emailInputController.clear(),
-                                        passwordInputController.clear(),
-                                      }
-                                  });
-                                } else {
-                                  Navigator.pushNamed(context, PageRoutes.news);
-                                }
-                              },
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(getTranslationOf('or_continue_with')!,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                                  fontSize: 14
-                                )),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CustomButton(
-                              text: 'Facebook',
-                              hasBorder: true,
-                              textColor: Theme.of(context).primaryColor,
-                              onTap: () {
-                                // Navigator.pushNamed(context, PageRoutes.signUp);
-                                final scaffoldkey = RootInjectorWidget.of(context)!
-                                    .applicationBloc
-                                    .globalscaffoldKey;
-                                final scaffoldState = scaffoldkey.currentState;
-                                if (scaffoldState != null) {
-                                  scaffoldState.showSnackBar(ActionIndicator()
-                                      .getSnackBar(
-                                      context, 'A feature in progress!.'));
-                                }
-                              },
-                            ),
-                            CustomButton(
-                              text: 'Google',
-                              hasBorder: true,
-                              textColor: Theme.of(context).primaryColor,
-                              onTap: () {
-                                // Navigator.pushNamed(context, PageRoutes.signUp);
-                                // ScaffoldMessenger.of(context).showSnackBar(
-                                //     getSnackBar(context, 'A feature in progress!.'));
-                                ActionIndicator().getDialog(
-                                    context, "Alert", "Saved Successfully!");
-                              },
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+            Container(
+              height: MediaQuery.of(context).size.height / 1.5,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 15.0, top: 5, bottom: 5
+                    ),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(getTranslationOf('sign_in_now')!,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontSize: 16)),
+                    ),
                   ),
-                ),
+                  EntryField(
+                    label: getTranslationOf('email'),
+                    hint: getTranslationOf('enter_email'),
+                    textController: emailInputController,
+                    hideText: false,
+                  ),
+                  EntryField(
+                    label: getTranslationOf('password'),
+                    hint: getTranslationOf('enter_password'),
+                    textController: passwordInputController,
+                    hideText: true,
+                  ),
+                  Expanded(
+                            child: Container(
+                              child: Column(
+                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                              Navigator.pushNamed(context, PageRoutes.signUp);
+                          },
+                          child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Register Here',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                          ),
+                        ),
+                        CustomButton(
+                          textColor: Theme.of(context).colorScheme.background,
+                          onTap: () async {
+                              final config =
+                                  await ApplicationBloc.getAppConfiguration('dev');
+                              if (config.features!.awsCognito!) {
+                                final result = RootInjectorWidget.of(context)!
+                                    .authService
+                                    .signInUser(emailInputController.text,
+                                        passwordInputController.text);
+                                result!.then((value) => {
+                                      if (value.isSignedIn)
+                                        {
+                                          Navigator.pushNamed(
+                                              context, PageRoutes.news)
+                                        }
+                                      else
+                                        {
+                                          AlertDialog(
+                                            title: Text("TekCapsule Alert"),
+                                            content:
+                                                Text("User Not Authenticated."),
+                                          ),
+                                          emailInputController.clear(),
+                                          passwordInputController.clear(),
+                                        }
+                                    });
+                              } else {
+                                Navigator.pushNamed(context, PageRoutes.news);
+                              }
+                          },
+                        ),
+                        Text(getTranslationOf('or_continue_with')!,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(fontSize: 14)),
+                        CustomButton(
+                          text: 'Facebook',
+                          hasBorder: true,
+                          textColor: Theme.of(context).primaryColor,
+                          onTap: () {
+                              // Navigator.pushNamed(context, PageRoutes.signUp);
+                              final scaffoldkey = RootInjectorWidget.of(context)!
+                                  .applicationBloc
+                                  .globalscaffoldKey;
+                              final scaffoldState = scaffoldkey.currentState;
+                              if (scaffoldState != null) {
+                                scaffoldState.showSnackBar(ActionIndicator()
+                                    .getSnackBar(
+                                        context, 'A feature in progress!.'));
+                              }
+                          },
+                        ),
+                        CustomButton(
+                          text: 'Google',
+                          hasBorder: true,
+                          textColor: Theme.of(context).primaryColor,
+                          onTap: () {
+                              // Navigator.pushNamed(context, PageRoutes.signUp);
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //     getSnackBar(context, 'A feature in progress!.'));
+                              ActionIndicator().getDialog(
+                                  context, "Alert", "Saved Successfully!");
+                          },
+                        ),
+                      ],
+                    ),
+                            ),
+                  )
+                ],
               ),
             ),
           ],

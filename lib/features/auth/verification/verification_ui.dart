@@ -22,67 +22,81 @@ class _VerificationUIState extends State<VerificationUI> {
     var routeArgs = ModalRoute.of(context)!.settings.arguments as String;
     return FadedSlideAnimation(
       Scaffold(
-        body: Column(
-          children: [
-            Container(
-              color: theme.focusColor,
-              child: Container(
-                  padding: EdgeInsets.only(top: 100),
-                  child: Image.asset("assets/vct_verification.png")),
-            ),
-            SizedBox(
-              height: 1,
-              child: Center(
-                child: Container(
-                  margin: EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
-                  height: 2,
-                  color: Color(0xffE2E2E2),
+        backgroundColor: Colors.white,
+        body: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: 35),
+                  color: Colors.white,
+                  child: Container(
+                      color: Colors.white,
+                      width: MediaQuery.of(context).size.width / 1.6,
+                      height: 120,
+                      child: Image.asset("assets/vct_verification.png")),
                 ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                // height: MediaQuery.of(context).size.height * 0.68,
-                padding: EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.background,
+                SizedBox(
+                  height: 1,
+                  child: Center(
+                    child: Container(
+                      margin: EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
+                      height: 2,
+                      color: Color(0xffE2E2E2),
+                    ),
+                  ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, top: 20),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      getTranslationOf('verification')!,
+                      style:
+                          theme.textTheme.titleMedium?.copyWith(fontSize: 14),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 15, top: 10),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      getTranslationOf('we_have')!,
+                      style:
+                          theme.textTheme.titleSmall?.copyWith(fontSize: 12),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: EntryField(
+                    textController: otpInputController,
+                    label: getTranslationOf('enter_code'),
+                    hint: getTranslationOf('enter_six'),
+                  ),
+                ),
+
+              ],
+            ),
+              Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 30, left: 16, bottom: 6, right: 16),
-                      child: Text(
-                        getTranslationOf('verification')!,
-                        style: theme.textTheme.titleMedium,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 20, left: 16, bottom: 30, right: 16),
-                      child: Text(
-                        getTranslationOf('we_have')!,
-                        style: theme.textTheme.titleSmall,
-                      ),
-                    ),
-                    EntryField(
-                      textController: otpInputController,
-                      label: getTranslationOf('enter_code'),
-                      hint: getTranslationOf('enter_six'),
-                    ),
-                    Spacer(),
+
                     CustomButton(
                       textColor: Theme.of(context).colorScheme.background,
                       text: getTranslationOf('get_started'),
                       onTap: () async {
                         final config =
-                            await ApplicationBloc.getAppConfiguration('dev');
+                        await ApplicationBloc.getAppConfiguration('dev');
                         if (config.features!.awsCognito!) {
                           final result = await RootInjectorWidget.of(context)!
                               .authService
                               .confirmUser(routeArgs.toString(),
-                                  otpInputController.text);
+                              otpInputController.text);
                           if (result!.isSignUpComplete) {
                             Navigator.pushNamed(context, PageRoutes.news);
                           }
@@ -90,13 +104,12 @@ class _VerificationUIState extends State<VerificationUI> {
                           Navigator.pushNamed(context, PageRoutes.news);
                         }
                       },
-                    ),
-                    Spacer(),
+                    )
                   ],
                 ),
               ),
-            )
-          ],
+            ]
+          ),
         ),
       ),
       beginOffset: Offset(0, 0.3),

@@ -10,6 +10,7 @@ import 'package:tek_capsule/infrastructure/model/capsule_details.dart';
 import 'package:tek_capsule/widgets/action_indicator.dart';
 import 'package:tek_capsule/widgets/app_drawer.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
+import 'package:tek_capsule/widgets/swipe_detector.dart';
 
 class NewsComponent extends StatefulWidget {
   bool showAppbar;
@@ -72,11 +73,7 @@ class _NewsComponentState extends State<NewsComponent> {
                 //     color: theme.backgroundColor,
                 //   ),
                 // ),
-                Icon(
-                  Icons.comment_outlined,
-                  color: theme.colorScheme.background,
-                  size: 20,
-                ),
+
                 // GestureDetector(
                 //   onTap: () {
                 //     setState(() {
@@ -126,9 +123,14 @@ class _NewsComponentState extends State<NewsComponent> {
                 case ConnectionState.waiting:
                 case ConnectionState.active:
                   return Center(
-                      child: CircularProgressIndicator(
-                    color: theme.primaryColor,
-                  ));
+                      child: SizedBox(
+                        width: 25,
+                        height: 25,
+                        child: CircularProgressIndicator(
+                          color: theme.primaryColor,
+                          strokeWidth: 2.6,
+                        ),
+                      ));
                 case ConnectionState.done:
                   if (snapshot.hasError) return Text('Err: ${snapshot.error}');
                   List<CapsuleDetails> capsuleDetails = snapshot.data!;
@@ -138,9 +140,9 @@ class _NewsComponentState extends State<NewsComponent> {
                   final scaffoldState = scaffoldkey.currentState;
                   if (capsuleDetails.length > 0) {
                     capsuleDetails[0].resourceUrl =
-                        'https://www.tekcapsule.com/';
+                    'https://www.tekcapsule.com/';
                     capsuleDetails[1].resourceUrl =
-                        'https://tekcapsule.blog/the-rise-of-artificial-intelligence-exploring-the-benefits-challenges-and-future-implications/';
+                    'https://tekcapsule.blog/the-rise-of-artificial-intelligence-exploring-the-benefits-challenges-and-future-implications/';
                     if (scaffoldState != null) {
                       SchedulerBinding.instance.addPostFrameCallback((_) {
                         scaffoldState.showSnackBar(ActionIndicator()
@@ -175,80 +177,86 @@ class _NewsComponentState extends State<NewsComponent> {
         scrollDirection: Axis.vertical,
         itemBuilder: (context, index) {
           return FadedSlideAnimation(
-            Column(
+            SwipeDetector(
+              onSwipeLeft: () {
+                loadWebPage(
+                    url: capsuleData[index].resourceUrl!,
+                    title: capsuleData[index].title!);
+              },
+              child: Column(
                 children: [
-                Stack(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height / 3,
-                      child: Image.network(
-                        capsuleData[index].imageUrl!,
-                        fit: BoxFit.cover
-                                         ),
-                    ),
-                    Positioned(
-                      width: MediaQuery.of(context).size.width,
-                           child: Padding(
-                        padding:const EdgeInsets.only(left: 0, right: 0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 75,
-                              height: 30,
-                              child: Container(
-                                color: theme.primaryColor,
-                                child: Center(
-                                  child: Text(
-                                      capsuleData[index].tags![1],
-                                      style: theme
-                                          .textTheme.titleMedium!
-                                          .copyWith(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                      )),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 100,
-                              height: 30,
-                              child: Container(
-                                color: Colors.black.withOpacity(0.5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Icon(
-                                      Icons.more_time_outlined,
-                                      color:
-                                          theme.colorScheme.background,
-                                      size: 14,
-                                    ),
-                                    Text(
-                                        capsuleData[index]
-                                            .duration!
-                                            .toString(),
+                  Stack(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height / 3,
+                        child: Image.network(
+                            capsuleData[index].imageUrl!,
+                            fit: BoxFit.cover
+                        ),
+                      ),
+                      Positioned(
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding:const EdgeInsets.only(left: 0, right: 0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 75,
+                                height: 30,
+                                child: Container(
+                                  color: theme.primaryColor,
+                                  child: Center(
+                                    child: Text(
+                                        capsuleData[index].tags![1],
                                         style: theme
                                             .textTheme.titleMedium!
                                             .copyWith(
                                           color: Colors.white,
                                           fontSize: 14,
-                                        ))
-                                  ],
+                                        )),
+                                  ),
                                 ),
                               ),
-                            )
-                          ],
+                              SizedBox(
+                                width: 100,
+                                height: 30,
+                                child: Container(
+                                  color: Colors.black.withOpacity(0.5),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Icon(
+                                        Icons.more_time_outlined,
+                                        color:
+                                        theme.colorScheme.background,
+                                        size: 14,
+                                      ),
+                                      Text(
+                                          capsuleData[index]
+                                              .duration!
+                                              .toString(),
+                                          style: theme
+                                              .textTheme.titleMedium!
+                                              .copyWith(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
 
-                  ],
-                ),
+                    ],
+                  ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -362,7 +370,8 @@ class _NewsComponentState extends State<NewsComponent> {
                       ),
                     ),
                   ),
-              ],
+                ],
+              ),
             ),
             beginOffset: Offset(0, 0.3),
             endOffset: Offset(0, 0),

@@ -68,10 +68,10 @@ class _PreferencesState extends State<Preferences> {
           getTranslationOf('better_reading_experience')),
       // BlueContainerContent(Icons.public, getTranslationOf('language'),
       //     getTranslationOf('select_preferred_language')),
-      BlueContainerContent(
-          Icons.notifications,
-          getTranslationOf('notifications'),
-          getTranslationOf('get_notifications')),
+      // BlueContainerContent(
+      //     Icons.notifications,
+      //     getTranslationOf('notifications'),
+      //     getTranslationOf('get_notifications')),
     ];
 
     return Scaffold(
@@ -104,12 +104,17 @@ class _PreferencesState extends State<Preferences> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              getTranslationOf('my_profile')!,
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, PageRoutes.myProfile);
+                              },
+                              child: Text(
+                                getTranslationOf('my_profile')!,
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold
+                                ),
                               ),
                             ),
                           ),
@@ -120,21 +125,16 @@ class _PreferencesState extends State<Preferences> {
                   PositionedDirectional(
                     end: 28,
                     top: 8,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, PageRoutes.myProfile);
-                      },
-                      child: Material(
-                        elevation: 8,
-                        borderRadius: BorderRadius.circular(50),
-                        child: FadedScaleAnimation(
-                          CircleAvatar(
-                            child: Image.asset(
-                                'assets/profiles/change profile pic copy 3-1.png'),
-                            radius: 40,
-                          ),
-                          durationInMilliseconds: 800,
+                    child: Material(
+                      elevation: 8,
+                      borderRadius: BorderRadius.circular(50),
+                      child: FadedScaleAnimation(
+                        CircleAvatar(
+                          child: Image.asset(
+                              'assets/profiles/change profile pic copy 3-1.png'),
+                          radius: 40,
                         ),
+                        durationInMilliseconds: 800,
                       ),
                     ),
                   ),
