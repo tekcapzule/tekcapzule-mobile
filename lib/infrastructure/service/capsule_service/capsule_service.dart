@@ -96,7 +96,7 @@ class CapsuleService {
         false);
   }
 
-  Future<Response> setBookmark(String capsuleId) async {
+  Future<Response> setBookmark(String? capsuleId) async {
     final payload = json.encode({"capsuleId": capsuleId});
     return httpClient.post(
         httpClient.getUri(

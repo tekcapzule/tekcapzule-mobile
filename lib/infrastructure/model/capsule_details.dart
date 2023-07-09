@@ -1,4 +1,5 @@
 class CapsuleDetails {
+  String? capsuleId;
   String? topicCode;
   String? publishedDate;
   String? title;
@@ -17,7 +18,8 @@ class CapsuleDetails {
   List<String>? keyPoints;
 
   CapsuleDetails(
-      {this.topicCode,
+      {this.capsuleId,
+      this.topicCode,
       this.publishedDate,
       this.title,
       this.imageUrl,
@@ -35,6 +37,7 @@ class CapsuleDetails {
       this.keyPoints});
 
   CapsuleDetails.fromJson(Map<String, dynamic> json) {
+    capsuleId = json['capsuleId'];
     topicCode = json['topicCode'];
     publishedDate = json['publishedDate'];
     title = json['title'];
@@ -55,6 +58,7 @@ class CapsuleDetails {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['capsuleId'] = capsuleId;
     data['topicCode'] = topicCode;
     data['publishedDate'] = publishedDate;
     data['title'] = title;

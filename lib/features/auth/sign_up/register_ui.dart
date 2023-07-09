@@ -103,59 +103,60 @@ class _RegisterUIState extends State<RegisterUI> {
           iconTheme: IconThemeData(color: theme.primaryColor),
         ),
         body: Column(
+           mainAxisSize: MainAxisSize.max,
           children: [
-            Container(
-              color: Colors.white,
-              child: Container(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
                   color: Colors.white,
-                  width: MediaQuery.of(context).size.width / 2,
-                  height: 90,
-                  child: Image.asset("assets/vct_register.png")),
-            ),
-            SizedBox(
-              height: 1,
-              child: Center(
-                child: Container(
-                  margin: EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
-                  height: 2,
-                  color: Color(0xffE2E2E2),
+                  child: SizedBox(
+                     // color: Colors.white,
+                      width: MediaQuery.of(context).size.width / 1.4,
+                      height: 90,
+                      child: Image.asset("assets/vct_register.png",fit: BoxFit.contain,)),
                 ),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child:
-              Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, top: 20),
-                      child: Text(
-                        getTranslationOf('register')!,
-                        style: theme.textTheme.titleMedium?.copyWith(fontSize: 14),
-                      ),
+                SizedBox(
+                  height: 1,
+                  child: Center(
+                    child: Container(
+                      margin: EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
+                      height: 2,
+                      color: Color(0xffE2E2E2),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15, top: 10),
-                      child: Text(
-                        getTranslationOf('in_less_than')!,
-                        textAlign: TextAlign.left,
-                        style: theme.textTheme.titleSmall?.copyWith(fontSize: 12),
-                      ),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, top: 20),
+                    child: Text(
+                      getTranslationOf('register')!,
+                      style: theme.textTheme.titleMedium?.copyWith(fontSize: 14),
                     ),
                   ),
-                ],
-              ),
+                ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, top: 10),
+                    child: Text(
+                      getTranslationOf('in_less_than')!,
+                      textAlign: TextAlign.left,
+                      style: theme.textTheme.titleSmall?.copyWith(fontSize: 12),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Expanded(
-              flex: 3,
               child: SingleChildScrollView(
                 child: Column(
-                children: [
+                  children: [
                     EntryField(
                       label: getTranslationOf('full_name'),
                       hint: getTranslationOf('enter_full_name'),
@@ -187,9 +188,7 @@ class _RegisterUIState extends State<RegisterUI> {
                 ),
               ),
             ),
-            Expanded(
-              flex: 2,
-                child: Column(
+            Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(15),
@@ -199,39 +198,42 @@ class _RegisterUIState extends State<RegisterUI> {
                     style: theme.textTheme.subtitle1?.copyWith(fontSize: 12),
                   ),
                 ),
-                CustomButton(
-                  textColor: Theme.of(context).colorScheme.background,
-                  onTap: () async {
-                    final config =
-                    await ApplicationBloc.getAppConfiguration('dev');
-                    if (config.features!.awsCognito!) {
-                      final result = await RootInjectorWidget.of(context)!
-                          .authService
-                          .signUpUser(
-                          nameController.text,
-                          emailController.text,
-                          pwdController.text,
-                          phoneController.text,
-                          dobController.text,
-                          selectGenderValue.toString());
-                      if (result!.isSignUpComplete) {
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: CustomButton(
+                    textColor: Theme.of(context).colorScheme.background,
+                    onTap: () async {
+                      final config =
+                      await ApplicationBloc.getAppConfiguration('dev');
+                      if (config.features!.awsCognito!) {
+                        final result = await RootInjectorWidget.of(context)!
+                            .authService
+                            .signUpUser(
+                            nameController.text,
+                            emailController.text,
+                            pwdController.text,
+                            phoneController.text,
+                            dobController.text,
+                            selectGenderValue.toString());
+                        if (result!.isSignUpComplete) {
+                          Navigator.pushNamed(
+                            context,
+                            PageRoutes.verification,
+                            arguments: emailController.text,
+                          );
+                        }
+                      } else {
                         Navigator.pushNamed(
                           context,
                           PageRoutes.verification,
-                          arguments: emailController.text,
+                          arguments: 'empty',
                         );
                       }
-                    } else {
-                      Navigator.pushNamed(
-                        context,
-                        PageRoutes.verification,
-                        arguments: 'empty',
-                      );
-                    }
-                  },
-                )
-              ],
-            ))
+                    },
+                  ),
+                ),
+                ],
+            )
           ],
         ),
       ),

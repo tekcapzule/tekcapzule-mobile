@@ -38,17 +38,29 @@ void main() async {
 }
 
 // ignore: must_be_immutable
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   late GlobalKey<ScaffoldMessengerState> globalscaffoldKey;
   MyApp(GlobalKey<ScaffoldMessengerState> scaffoldKey) {
     this.globalscaffoldKey = scaffoldKey;
+  }
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void dispose() {
+    RootInjectorWidget.of(context)?.applicationBloc.dispose();
+    super.dispose();
   }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      scaffoldMessengerKey: globalscaffoldKey,
+      scaffoldMessengerKey: widget.globalscaffoldKey,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         const AppLocalizationsDelegate(),

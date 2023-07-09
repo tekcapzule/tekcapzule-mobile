@@ -1,6 +1,7 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/widgets/action_indicator.dart';
@@ -36,9 +37,9 @@ class _SignInUIState extends State<SignInUI> {
 
   Future<void> configureAwsCognito() async {
     try {
-      final authService = await AuthenticationService.init();
-      RootInjectorWidget.of(context)!.authService = authService;
-      await authService.signOutUser();
+      // final authService = await AuthenticationService.init();
+      // RootInjectorWidget.of(context)!.authService = authService;
+      // await authService.signOutUser();
     } on Exception catch (e) {
       safePrint('An error occurred while configuring Amplify: $e');
     }
@@ -55,146 +56,151 @@ class _SignInUIState extends State<SignInUI> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: FadedSlideAnimation(
         Column(
-          children: [
+          mainAxisSize: MainAxisSize.max,
+            children: [
             Container(
-              padding: EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: 25),
               color: Colors.white,
               child: Container(
                   color: Colors.white,
-                  width: MediaQuery.of(context).size.width / 2,
-                  height: 150,
+                  height: 110,
                   child: Image.asset(
                     "assets/logo_main.png",
                     fit: BoxFit.contain,
                   )),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 15.0, top: 5, bottom: 5
-                    ),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(getTranslationOf('sign_in_now')!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(fontSize: 16)),
-                    ),
-                  ),
-                  EntryField(
-                    label: getTranslationOf('email'),
-                    hint: getTranslationOf('enter_email'),
-                    textController: emailInputController,
-                    hideText: false,
-                  ),
-                  EntryField(
-                    label: getTranslationOf('password'),
-                    hint: getTranslationOf('enter_password'),
-                    textController: passwordInputController,
-                    hideText: true,
-                  ),
-                  Expanded(
-                            child: Container(
-                              child: Column(
-                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                              Navigator.pushNamed(context, PageRoutes.signUp);
-                          },
-                          child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Register Here',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                          ),
-                        ),
-                        CustomButton(
-                          textColor: Theme.of(context).colorScheme.background,
-                          onTap: () async {
-                              final config =
-                                  await ApplicationBloc.getAppConfiguration('dev');
-                              if (config.features!.awsCognito!) {
-                                final result = RootInjectorWidget.of(context)!
-                                    .authService
-                                    .signInUser(emailInputController.text,
-                                        passwordInputController.text);
-                                result!.then((value) => {
-                                      if (value.isSignedIn)
-                                        {
-                                          Navigator.pushNamed(
-                                              context, PageRoutes.news)
-                                        }
-                                      else
-                                        {
-                                          AlertDialog(
-                                            title: Text("TekCapsule Alert"),
-                                            content:
-                                                Text("User Not Authenticated."),
-                                          ),
-                                          emailInputController.clear(),
-                                          passwordInputController.clear(),
-                                        }
-                                    });
-                              } else {
-                                Navigator.pushNamed(context, PageRoutes.news);
-                              }
-                          },
-                        ),
-                        Text(getTranslationOf('or_continue_with')!,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall
-                                  ?.copyWith(fontSize: 14)),
-                        CustomButton(
-                          text: 'Facebook',
-                          hasBorder: true,
-                          textColor: Theme.of(context).primaryColor,
-                          onTap: () {
-                              // Navigator.pushNamed(context, PageRoutes.signUp);
-                              final scaffoldkey = RootInjectorWidget.of(context)!
-                                  .applicationBloc
-                                  .globalscaffoldKey;
-                              final scaffoldState = scaffoldkey.currentState;
-                              if (scaffoldState != null) {
-                                scaffoldState.showSnackBar(ActionIndicator()
-                                    .getSnackBar(
-                                        context, 'A feature in progress!.'));
-                              }
-                          },
-                        ),
-                        CustomButton(
-                          text: 'Google',
-                          hasBorder: true,
-                          textColor: Theme.of(context).primaryColor,
-                          onTap: () {
-                              // Navigator.pushNamed(context, PageRoutes.signUp);
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //     getSnackBar(context, 'A feature in progress!.'));
-                              ActionIndicator().getDialog(
-                                  context, "Alert", "Saved Successfully!");
-                          },
-                        ),
-                      ],
-                    ),
-                            ),
-                  )
-                ],
+            Padding(
+              padding: EdgeInsets.only(
+                left: 15.0, top: 5, bottom: 5
+              ),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(getTranslationOf('sign_in_now')!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontSize: 16)),
               ),
             ),
+          Expanded(
+            child: Column(
+
+             mainAxisSize: MainAxisSize.max,
+              children: [
+                Column(
+                  //crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    EntryField(
+                      label: getTranslationOf('email'),
+                      hint: getTranslationOf('enter_email'),
+                      textController: emailInputController,
+                      hideText: false,
+                    ),
+                    EntryField(
+                      label: getTranslationOf('password'),
+                      hint: getTranslationOf('enter_password'),
+                      textController: passwordInputController,
+                      hideText: true,
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisSize: MainAxisSize.max,
+                                   children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, PageRoutes.signUp);
+                        },
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Register Here',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      CustomButton(
+                        textColor: Theme.of(context).colorScheme.background,
+                        onTap: () async {
+                          final config =
+                          await ApplicationBloc.getAppConfiguration('dev');
+                          if (config.features!.awsCognito!) {
+                            final result = RootInjectorWidget.of(context)!
+                                .authService
+                                .signInUser(emailInputController.text,
+                                passwordInputController.text);
+                            result!.then((value) => {
+                              if (value.isSignedIn)
+                                {
+                                  Navigator.pushNamed(
+                                      context, PageRoutes.news)
+                                }
+                              else
+                                {
+                                  AlertDialog(
+                                    title: Text("TekCapsule Alert"),
+                                    content:
+                                    Text("User Not Authenticated."),
+                                  ),
+                                  emailInputController.clear(),
+                                  passwordInputController.clear(),
+                                }
+                            });
+                          } else {
+                            Navigator.pushNamed(context, PageRoutes.news);
+                          }
+                        },
+                      ),
+                      Text(getTranslationOf('or_continue_with')!,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(fontSize: 14)),
+                      CustomButton(
+                        text: 'Facebook',
+                        hasBorder: true,
+                        textColor: Theme.of(context).primaryColor,
+                        onTap: () {
+                          // Navigator.pushNamed(context, PageRoutes.signUp);
+                          final scaffoldkey = RootInjectorWidget.of(context)!
+                              .applicationBloc
+                              .globalscaffoldKey;
+                          final scaffoldState = scaffoldkey.currentState;
+                          if (scaffoldState != null) {
+                            scaffoldState.showSnackBar(ActionIndicator()
+                                .getSnackBar(
+                                context, 'A feature in progress!.'));
+                          }
+                        },
+                      ),
+                      CustomButton(
+                        text: 'Google',
+                        hasBorder: true,
+                        textColor: Theme.of(context).primaryColor,
+                        onTap: () {
+                          // Navigator.pushNamed(context, PageRoutes.signUp);
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //     getSnackBar(context, 'A feature in progress!.'));
+                          ActionIndicator().getDialog(
+                              context, "Alert", "Saved Successfully!");
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
           ],
         ),
         beginOffset: Offset(0, 0.3),

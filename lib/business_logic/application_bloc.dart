@@ -8,9 +8,19 @@ import 'package:tek_capsule/business_logic/event/application_events.dart';
 import 'package:tek_capsule/business_logic/model/app_config.dart';
 import 'package:tek_capsule/business_logic/model/app_state.dart';
 import 'package:tek_capsule/business_logic/model/user_model.dart';
+import 'package:tek_capsule/common/model/app-constant.dart';
 
 class ApplicationBloc {
   static final ApplicationBloc _instance = ApplicationBloc._internal();
+  late ApplicationState applicationState;
+  late GlobalKey<ScaffoldMessengerState> globalscaffoldKey;
+  late StreamController<ApplicationEvent> _appEventController;
+  late BehaviorSubject<UserModel> _userData;
+
+  Sink<ApplicationEvent> get appEventSink => _appEventController.sink;
+
+  // Streams
+  Stream<UserModel> get stateManagementTime => _userData.stream;
 
   factory ApplicationBloc() {
     return _instance;
@@ -18,19 +28,11 @@ class ApplicationBloc {
 
   ApplicationBloc._internal() {
     applicationState = ApplicationState();
+    applicationState.selectedCapsuleType = CapsuleType.NONE;
+    _appEventController = StreamController<ApplicationEvent>();
+    _userData = BehaviorSubject<UserModel>();
     _appEventController.stream.listen(_mapEventToState);
   }
-
-  late ApplicationState applicationState;
-
-  late GlobalKey<ScaffoldMessengerState> globalscaffoldKey;
-
-  final _appEventController = StreamController<ApplicationEvent>();
-  Sink<ApplicationEvent> get appEventSink => _appEventController.sink;
-
-  final BehaviorSubject<UserModel> _userData = BehaviorSubject<UserModel>();
-  // Streams
-  Stream<UserModel> get stateManagementTime => _userData.stream;
 
   static Future<AppConfig> getAppConfiguration(String? env) async {
     env = env ?? 'dev';
@@ -48,6 +50,10 @@ class ApplicationBloc {
       } else {
         onFailureLogin(event.payload);
       }
+    }
+
+    if (event is BookmarkEvent) {
+      if (event.isSave) event.bloc.setBookmark(event.capsuleDetails);
     }
   }
 
