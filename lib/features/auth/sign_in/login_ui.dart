@@ -63,7 +63,7 @@ class _SignInUIState extends State<SignInUI> {
           mainAxisSize: MainAxisSize.max,
             children: [
             Container(
-              padding: EdgeInsets.only(top: 25),
+              padding: EdgeInsets.only(top: 30),
               color: Colors.white,
               child: Container(
                   color: Colors.white,
@@ -75,7 +75,7 @@ class _SignInUIState extends State<SignInUI> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                left: 15.0, top: 5, bottom: 5
+                left: 15.0, top: 10, bottom: 10
               ),
               child: Align(
                 alignment: Alignment.topLeft,
@@ -88,8 +88,6 @@ class _SignInUIState extends State<SignInUI> {
             ),
           Expanded(
             child: Column(
-
-             mainAxisSize: MainAxisSize.max,
               children: [
                 Column(
                   //crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,10 +106,10 @@ class _SignInUIState extends State<SignInUI> {
                     ),
                   ],
                 ),
-                Expanded(
+                Container(
+                  height: MediaQuery.of(context).size.height / 2.6,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    mainAxisSize: MainAxisSize.max,
                                    children: [
                       GestureDetector(
                         onTap: () {

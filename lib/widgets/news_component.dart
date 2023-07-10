@@ -3,6 +3,7 @@ import 'package:blur/blur.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/capsule_bloc.dart';
 import 'package:tek_capsule/business_logic/event/application_events.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
@@ -41,9 +42,9 @@ class _NewsComponentState extends State<NewsComponent> {
     var theme = Theme.of(context);
     return Scaffold(
         bottomNavigationBar: Container(
-          padding: EdgeInsets.only(left: 20, right: 20, bottom: 18, top: 18),
+          padding: EdgeInsets.only(left: 20, right: 20, bottom: 15, top: 15),
           decoration: BoxDecoration(
-            color: Color(0xff3A3A3A),
+            color: theme.primaryColor,
           ),
           child: FadedScaleAnimation(
             Row(
@@ -75,11 +76,11 @@ class _NewsComponentState extends State<NewsComponent> {
                       stream: capsuleBloc.getCapsuleBookmark,
                       builder: (context, snapshot) {
                         return Icon(
-                          Icons.bookmark_add_outlined,
+                          snapshot.hasData && snapshot.data!
+                              ? Icons.bookmark_added
+                              : Icons.bookmark_add_outlined,
                           size: 25,
-                          color: snapshot.hasData && snapshot.data!
-                              ? theme.primaryColor
-                              : theme.colorScheme.background,
+                          color: theme.colorScheme.background,
                         );
                       }),
                 ),
@@ -222,7 +223,6 @@ class _NewsComponentState extends State<NewsComponent> {
   PageView getDashBoardFeedWidget(
       List<CapsuleDetails> capsuleData, ThemeData theme) {
     return PageView.builder(
-        physics: BouncingScrollPhysics(),
         itemCount: capsuleData.length,
         scrollDirection: Axis.vertical,
         onPageChanged: ((value) {
@@ -232,187 +232,164 @@ class _NewsComponentState extends State<NewsComponent> {
               .selectedCapsule = capsuleData[value];
         }),
         itemBuilder: (context, index) {
-          return FadedSlideAnimation(
-            Container(
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.height / 3.6,
-                        child: Image.network(
-                          capsuleData[index].imageUrl!,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              child: Center(child: Text('Error')),
-                            );
-                          },
-                        ),
+          return Container(
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height / 3.6,
+                      child: Image.network(
+                        capsuleData[index].imageUrl!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            child: Center(child: Text('Error')),
+                          );
+                        },
                       ),
-                      Positioned(
-                        width: MediaQuery.of(context).size.width,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 0, right: 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 75,
-                                height: 30,
-                                child: Container(
-                                  color: theme.primaryColor,
-                                  child: Center(
-                                    child: Text(capsuleData[index].tags![1],
+                    ),
+                    Positioned(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 0, right: 0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              width: 75,
+                              height: 30,
+                              child: Container(
+                                color: theme.primaryColor,
+                                child: Center(
+                                  child: Text(capsuleData[index].tags![1],
+                                      style:
+                                          theme.textTheme.titleMedium!.copyWith(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                      )),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 100,
+                              height: 30,
+                              child: Container(
+                                color: Colors.black.withOpacity(0.5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Icon(
+                                      Icons.more_time_outlined,
+                                      color: theme.colorScheme.background,
+                                      size: 14,
+                                    ),
+                                    Text(
+                                        capsuleData[index].duration!.toString(),
                                         style: theme.textTheme.titleMedium!
                                             .copyWith(
                                           color: Colors.white,
                                           fontSize: 14,
-                                        )),
-                                  ),
+                                        ))
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                width: 100,
-                                height: 30,
-                                child: Container(
-                                  color: Colors.black.withOpacity(0.5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Icon(
-                                        Icons.more_time_outlined,
-                                        color: theme.colorScheme.background,
-                                        size: 14,
-                                      ),
-                                      Text(
-                                          capsuleData[index]
-                                              .duration!
-                                              .toString(),
-                                          style: theme.textTheme.titleMedium!
-                                              .copyWith(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          loadWebPage(
+                              url: capsuleData[index].resourceUrl!,
+                              title: capsuleData[index].title!);
+                        },
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15.0, top: 10.0),
+                            child: Text(
+                              capsuleData[index].title!,
+                              style: theme.textTheme.titleMedium!.copyWith(
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        GestureDetector(
+                      GestureDetector(
+                        onTap: () {},
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 15.0, top: 10.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    capsuleData[index].author!,
+                                    style:
+                                        theme.textTheme.titleMedium!.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Text(
+                                      capsuleData[index].publishedDate!,
+                                      style:
+                                          theme.textTheme.titleMedium!.copyWith(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 14,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
                           onTap: () {
                             loadWebPage(
                                 url: capsuleData[index].resourceUrl!,
                                 title: capsuleData[index].title!);
                           },
-                          child: FadedSlideAnimation(
-                            SizedBox(
-                              width: double.infinity,
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15.0, top: 10.0),
-                                child: Text(
-                                  capsuleData[index].title!,
-                                  style: theme.textTheme.titleMedium!.copyWith(
-                                    fontSize: 16,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10.0),
+                            child: Text(
+                              capsuleData[index].description!,
+                              style: theme.textTheme.titleSmall!.copyWith(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
                               ),
-                            ),
-                            beginOffset: Offset(0, 3),
-                            endOffset: Offset(0, 0),
-                            slideCurve: Curves.linearToEaseOut,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: FadedSlideAnimation(
-                            SizedBox(
-                              width: double.infinity,
-                              child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15.0, top: 10.0),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        capsuleData[index].author!,
-                                        style: theme.textTheme.titleMedium!
-                                            .copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                        child: Text(
-                                          capsuleData[index].publishedDate!,
-                                          style: theme.textTheme.titleMedium!
-                                              .copyWith(
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 14,
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      )
-                                    ],
-                                  )),
-                            ),
-                            beginOffset: Offset(0, 3),
-                            endOffset: Offset(0, 0),
-                            slideCurve: Curves.linearToEaseOut,
-                          ),
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              loadWebPage(
-                                  url: capsuleData[index].resourceUrl!,
-                                  title: capsuleData[index].title!);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 10.0),
-                              child: FadedSlideAnimation(
-                                Text(
-                                  capsuleData[index].description!,
-                                  style: theme.textTheme.titleSmall!.copyWith(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 14,
-                                  ),
-                                  softWrap: false,
-                                  maxLines: 10,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                beginOffset: Offset(0, 3),
-                                endOffset: Offset(0, 0),
-                                slideCurve: Curves.linearToEaseOut,
-                              ),
+                              softWrap: false,
+                              maxLines: 10,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            beginOffset: Offset(0, 0.3),
-            endOffset: Offset(0, 0),
-            slideCurve: Curves.linearToEaseOut,
           );
         });
   }

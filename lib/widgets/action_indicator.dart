@@ -13,13 +13,13 @@ class ActionIndicator {
     return SnackBar(
       content: Text(
         message,
-        style: TextStyle(color: Colors.white, fontSize: 16),
+        style: TextStyle(color: Color.fromARGB(255, 78, 76, 76), fontSize: 16),
       ),
       elevation: 15,
       behavior: SnackBarBehavior.floating,
-      backgroundColor: Color.fromARGB(255, 83, 78, 78),
+      backgroundColor: Theme.of(context).colorScheme.background,
       action: SnackBarAction(
-          textColor: Color.fromARGB(255, 252, 137, 137),
+          textColor: Theme.of(context).primaryColor,
           label: 'Dismiss',
           onPressed: (() {
             ScaffoldMessenger.of(context).clearSnackBars();
