@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/widgets/news_component.dart';
-import 'package:tek_capsule/widgets/swipe_detector.dart';
-import 'package:tek_capsule/features/news/full_news.dart';
 
 class News extends StatelessWidget {
   @override

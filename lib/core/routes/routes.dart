@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/features/auth/sign_in/login_ui.dart';
 import 'package:tek_capsule/features/auth/sign_up/register_ui.dart';
 import 'package:tek_capsule/features/auth/verification/verification_ui.dart';
-import 'package:tek_capsule/core/locale/language_ui.dart';
 import 'package:tek_capsule/features/home/about_us.dart';
 import 'package:tek_capsule/features/home/bookmarked.dart';
-import 'package:tek_capsule/features/home/faqs.dart';
 import 'package:tek_capsule/features/home/my_profile.dart';
 import 'package:tek_capsule/features/home/preferences.dart';
 import 'package:tek_capsule/features/home/privacy_policy.dart';
 import 'package:tek_capsule/features/home/support.dart';
-import 'package:tek_capsule/features/news/comment.dart';
-import 'package:tek_capsule/features/news/full_news.dart';
 import 'package:tek_capsule/features/news/news.dart';
 
 class PageRoutes {
@@ -38,15 +33,12 @@ class PageRoutes {
       verification: (context) => VerificationUI(),
       news: (context) => News(),
      // fullNews: (context) => FullNews(),
-      comment: (context) => Comment(),
       support: (context) => Support(),
       privacyPolicy: (context) => PrivacyPolicy(),
       preferences: (context) => Preferences(),
       myProfile: (context) => MyProfile(),
-      faqs: (context) => Faqs(),
       bookmarked: (context) => Bookmarked(),
       aboutUs: (context) => AboutUs(),
-      language: (context) => LanguageUI(),
     };
   }
 }

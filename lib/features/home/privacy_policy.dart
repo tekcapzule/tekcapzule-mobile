@@ -1,5 +1,3 @@
-import 'package:animation_wrappers/Animations/faded_scale_animation.dart';
-import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
 
@@ -11,8 +9,7 @@ class PrivacyPolicy extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: theme.focusColor),
       ),
-      body: FadedSlideAnimation(
-        Column(
+      body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
@@ -40,12 +37,9 @@ class PrivacyPolicy extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 3,
-                    child: FadedScaleAnimation(
-                      Image.asset(
+                    child: Image.asset(
                         "assets/vct_privacy.png",
                       ),
-                      durationInMilliseconds: 600,
-                    ),
                   ),
                 ],
               ),
@@ -107,10 +101,6 @@ class PrivacyPolicy extends StatelessWidget {
             )
           ],
         ),
-        beginOffset: Offset(0.3, 0.3),
-        endOffset: Offset(0, 0),
-        slideCurve: Curves.linearToEaseOut,
-      ),
     );
   }
 }

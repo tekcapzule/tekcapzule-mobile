@@ -1,4 +1,3 @@
-import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
 
@@ -10,8 +9,7 @@ class AboutUs extends StatelessWidget {
       appBar: AppBar(
         iconTheme: IconThemeData(color: theme.focusColor),
       ),
-      body: FadedSlideAnimation(
-        Column(
+      body:  Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
@@ -35,13 +33,10 @@ class AboutUs extends StatelessWidget {
                       ),
                     ],
                   ),
-                  FadedScaleAnimation(
-                    Image.asset(
+                   Image.asset(
                       "assets/vct_privacy.png",
                       scale: 2.5,
                     ),
-                    durationInMilliseconds: 600,
-                  ),
                 ],
               ),
             ),
@@ -78,10 +73,6 @@ class AboutUs extends StatelessWidget {
             )
           ],
         ),
-        beginOffset: Offset(0.3, 0.3),
-        endOffset: Offset(0, 0),
-        slideCurve: Curves.linearToEaseOut,
-      ),
     );
   }
 }

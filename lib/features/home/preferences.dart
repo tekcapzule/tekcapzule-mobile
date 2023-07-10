@@ -1,11 +1,7 @@
-import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tek_capsule/core/routes/routes.dart';
-import 'package:tek_capsule/core/themes/theme_cubit.dart';
 import 'package:tek_capsule/core/themes/colors.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BlueContainerContent {
   final IconData icon;
@@ -31,32 +27,15 @@ class Preferences extends StatefulWidget {
 bool notifications = false;
 
 class _PreferencesState extends State<Preferences> {
-  late ThemeCubit _themeCubit;
   bool _theme = false;
 
   @override
   void initState() {
     super.initState();
     getTheme();
-    _themeCubit = BlocProvider.of<ThemeCubit>(context);
   }
 
-  getTheme() async {
-    var prefs = await SharedPreferences.getInstance();
-    bool? isDark = prefs.getBool('isDark');
-    if (isDark == null)
-      setState(() {
-        _theme = false;
-      });
-    else if (isDark)
-      setState(() {
-        _theme = false;
-      });
-    else
-      setState(() {
-        _theme = false;
-      });
-  }
+  getTheme() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +59,9 @@ class _PreferencesState extends State<Preferences> {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: theme.primaryColor),
       ),
-      body: FadedSlideAnimation(
-        Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
@@ -100,21 +78,22 @@ class _PreferencesState extends State<Preferences> {
                         children: [
                           Text(
                             'Samantha Smith',
-                            style: theme.textTheme.titleLarge?.copyWith(fontSize: 14),
+                            style: theme.textTheme.titleLarge
+                                ?.copyWith(fontSize: 14),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, PageRoutes.myProfile);
+                                Navigator.pushNamed(
+                                    context, PageRoutes.myProfile);
                               },
                               child: Text(
                                 getTranslationOf('my_profile')!,
                                 style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold
-                                ),
+                                    decoration: TextDecoration.underline,
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -128,13 +107,10 @@ class _PreferencesState extends State<Preferences> {
                     child: Material(
                       elevation: 8,
                       borderRadius: BorderRadius.circular(50),
-                      child: FadedScaleAnimation(
-                        CircleAvatar(
-                          child: Image.asset(
-                              'assets/profiles/change profile pic copy 3-1.png'),
-                          radius: 40,
-                        ),
-                        durationInMilliseconds: 800,
+                      child: CircleAvatar(
+                        child: Image.asset(
+                            'assets/profiles/change profile pic copy 3-1.png'),
+                        radius: 40,
                       ),
                     ),
                   ),
@@ -156,104 +132,92 @@ class _PreferencesState extends State<Preferences> {
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
             Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(top: 50),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ListView.builder(
-                        itemBuilder: (context, index) {
-                            return Column(
-
-                            children: [
-                              ListTile(
-                                onTap: index == 1
-                                    ? () {
-                                  Navigator.pushNamed(
-                                      context, PageRoutes.language);
-                                }
-                                    : () {},
-                                leading: Icon(
-                                  _blueContainerContent[index].icon,
-                                  color: Color(0xff3F4B61),
-                                ),
-                                title: Text(
-                                  _blueContainerContent[index].title!,
-                                  style: theme.textTheme.titleMedium!.copyWith(
-                                      color: Color(0xff3F4B61), fontSize: 16.0),
-                                ),
-                                subtitle: Text(
-                                  _blueContainerContent[index].subtitle!,
-                                  style: theme.textTheme.bodySmall,
-                                ),
-                                trailing: index == 0
-                                    ? Switch(
-                                  activeColor: Colors.lightGreen,
-                                  value: _theme,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _theme = value;
-                                    });
-                                    if (value)
-                                      _themeCubit.selectLightTheme();
-                                    else
-                                      _themeCubit.selectDarkTheme();
-                                  },
-                                )
-                                    : index == 1
-                                    ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      getTranslationOf('english')! +
-                                          ' ',
-                                      style: theme.textTheme.bodySmall!
-                                          .copyWith(
-                                        color: whiteTextColor
-                                            .withOpacity(0.7),
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.keyboard_arrow_right,
-                                      color: iconColor,
-                                    ),
-                                  ],
-                                )
-                                    : Switch(
-                                  activeColor: Colors.lightGreen,
-                                  value: notifications,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      notifications = !notifications;
-                                    });
-                                  },
-                                ),
+              child: Container(
+                padding: EdgeInsets.only(top: 50),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            ListTile(
+                              onTap: index == 1
+                                  ? () {
+                                      Navigator.pushNamed(
+                                          context, PageRoutes.language);
+                                    }
+                                  : () {},
+                              leading: Icon(
+                                _blueContainerContent[index].icon,
+                                color: Color(0xff3F4B61),
                               ),
-
-
-                            ],
-                          );
-                        },
-                        itemCount: _blueContainerContent.length,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(5),
-                      ),
-                    ],
-                  ),
+                              title: Text(
+                                _blueContainerContent[index].title!,
+                                style: theme.textTheme.titleMedium!.copyWith(
+                                    color: Color(0xff3F4B61), fontSize: 16.0),
+                              ),
+                              subtitle: Text(
+                                _blueContainerContent[index].subtitle!,
+                                style: theme.textTheme.bodySmall,
+                              ),
+                              trailing: index == 0
+                                  ? Switch(
+                                      activeColor: Colors.lightGreen,
+                                      value: _theme,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _theme = value;
+                                        });
+                                      },
+                                    )
+                                  : index == 1
+                                      ? Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              getTranslationOf('english')! +
+                                                  ' ',
+                                              style: theme.textTheme.bodySmall!
+                                                  .copyWith(
+                                                color: whiteTextColor
+                                                    .withOpacity(0.7),
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.keyboard_arrow_right,
+                                              color: iconColor,
+                                            ),
+                                          ],
+                                        )
+                                      : Switch(
+                                          activeColor: Colors.lightGreen,
+                                          value: notifications,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              notifications = !notifications;
+                                            });
+                                          },
+                                        ),
+                            ),
+                          ],
+                        );
+                      },
+                      itemCount: _blueContainerContent.length,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(5),
+                    ),
+                  ],
                 ),
               ),
+            ),
           ],
         ),
-        beginOffset: Offset(0, 0.3),
-        endOffset: Offset(0, 0),
-        slideCurve: Curves.linearToEaseOut,
-      ),
     );
   }
 }

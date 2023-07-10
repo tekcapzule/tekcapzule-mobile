@@ -4,7 +4,7 @@ final ThemeData darkTheme = ThemeData(
   fontFamily: 'Poppins',
   scaffoldBackgroundColor: Color(0xffEBF3F9),
   focusColor: Colors.black,
-  primaryColor: Color(0xff69C4FF),
+  primaryColor: Color.fromARGB(255, 82, 5, 56),
   hintColor: Color(0xffB3B3B3),
   appBarTheme: AppBarTheme(
       backgroundColor: Colors.transparent,

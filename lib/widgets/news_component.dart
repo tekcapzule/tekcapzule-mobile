@@ -1,9 +1,6 @@
-import 'package:animation_wrappers/animation_wrappers.dart';
-import 'package:blur/blur.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/capsule_bloc.dart';
 import 'package:tek_capsule/business_logic/event/application_events.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
@@ -11,9 +8,8 @@ import 'package:tek_capsule/features/news/full_news.dart';
 import 'package:tek_capsule/infrastructure/model/capsule_details.dart';
 import 'package:tek_capsule/widgets/action_indicator.dart';
 import 'package:tek_capsule/widgets/app_drawer.dart';
-import 'package:tek_capsule/core/locale/locales.dart';
-import 'package:tek_capsule/widgets/swipe_detector.dart';
 
+// ignore: must_be_immutable
 class NewsComponent extends StatefulWidget {
   bool showAppbar;
   bool reaction;
@@ -46,8 +42,7 @@ class _NewsComponentState extends State<NewsComponent> {
           decoration: BoxDecoration(
             color: theme.primaryColor,
           ),
-          child: FadedScaleAnimation(
-            Row(
+          child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
@@ -134,24 +129,25 @@ class _NewsComponentState extends State<NewsComponent> {
                 ),
               ],
             ),
-          ),
         ),
         backgroundColor: theme.colorScheme.background,
         drawer: AppDrawer(),
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          elevation: 14.0,
           centerTitle: true,
-          iconTheme: IconThemeData(color: theme.primaryColor),
+          iconTheme: IconThemeData(color: theme.primaryColor, size: 26.0),
+          backgroundColor: Colors.white,
           title: Text(
             widget.title!,
-            style: theme.textTheme.titleMedium!.copyWith(
-              color: Color.fromARGB(255, 102, 101, 101),
-              fontSize: 16,
+             style: theme.textTheme.headline6!.copyWith(
+              color: theme.primaryColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold
             ),
           ),
         ),
-        body: SwipeDetector(
-          onSwipeLeft: () {
+        body: GestureDetector(
+          onHorizontalDragUpdate: (details) {
             final renderedCapsule = RootInjectorWidget.of(context)!
                 .applicationBloc
                 .applicationState

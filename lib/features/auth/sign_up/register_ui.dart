@@ -1,6 +1,5 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
@@ -94,8 +93,7 @@ class _RegisterUIState extends State<RegisterUI> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return FadedSlideAnimation(
-      Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           toolbarHeight: 30,
@@ -103,7 +101,6 @@ class _RegisterUIState extends State<RegisterUI> {
           iconTheme: IconThemeData(color: theme.primaryColor),
         ),
         body: Column(
-           mainAxisSize: MainAxisSize.max,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,45 +150,48 @@ class _RegisterUIState extends State<RegisterUI> {
                 ),
               ],
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    EntryField(
-                      label: getTranslationOf('full_name'),
-                      hint: getTranslationOf('enter_full_name'),
-                      textController: nameController,
-                    ),
-                    EntryField(
-                      label: getTranslationOf('email_address'),
-                      hint: getTranslationOf('enter_email_address'),
-                      textController: emailController,
-                    ),
-                    EntryField(
-                      label: getTranslationOf('phone_number'),
-                      hint: getTranslationOf('enter_phone_number'),
-                      textController: phoneController,
-                    ),
-                    EntryField(
-                      label: getTranslationOf('password'),
-                      hint: getTranslationOf('enter_password'),
-                      textController: pwdController,
-                      hideText: true,
-                    ),
-                    EntryField(
-                      label: '',
-                      hint: 'Date of birth (dd/MM/YYYY)',
-                      textController: dobController,
-                    ),
+            Flexible(
+              fit: FlexFit.loose,
+              child: Container(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      EntryField(
+                        label: getTranslationOf('full_name'),
+                        hint: getTranslationOf('enter_full_name'),
+                        textController: nameController,
+                      ),
+                      EntryField(
+                        label: getTranslationOf('email_address'),
+                        hint: getTranslationOf('enter_email_address'),
+                        textController: emailController,
+                      ),
+                      EntryField(
+                        label: getTranslationOf('phone_number'),
+                        hint: getTranslationOf('enter_phone_number'),
+                        textController: phoneController,
+                      ),
+                      EntryField(
+                        label: getTranslationOf('password'),
+                        hint: getTranslationOf('enter_password'),
+                        textController: pwdController,
+                        hideText: true,
+                      ),
+                      EntryField(
+                        label: '',
+                        hint: 'Date of birth (dd/MM/YYYY)',
+                        textController: dobController,
+                      ),
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                   child: Text(
                     getTranslationOf('we_will_send')!,
                     textAlign: TextAlign.center,
@@ -199,7 +199,7 @@ class _RegisterUIState extends State<RegisterUI> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: const EdgeInsets.only(bottom:8.0),
                   child: CustomButton(
                     textColor: Theme.of(context).colorScheme.background,
                     onTap: () async {
@@ -236,10 +236,6 @@ class _RegisterUIState extends State<RegisterUI> {
             )
           ],
         ),
-      ),
-      beginOffset: Offset(0, 0.3),
-      endOffset: Offset(0, 0),
-      slideCurve: Curves.linearToEaseOut,
-    );
+      );
   }
 }

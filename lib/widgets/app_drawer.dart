@@ -1,11 +1,9 @@
-import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/business_logic/topic_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/common/model/app-constant.dart';
 import 'package:tek_capsule/core/routes/routes.dart';
 import 'package:tek_capsule/infrastructure/model/topic_details.dart';
-import 'package:tek_capsule/widgets/action_indicator.dart';
 
 class DrawerItems {
   final IconData icon;
@@ -28,35 +26,22 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     List<DrawerItems> _drawerItems = [
-      DrawerItems(Icons.explore, 'MY FEED'),
-      DrawerItems(Icons.bookmark_added, 'BOOKMARK'),
-      DrawerItems(Icons.speaker_notes, 'TRENDING'),
+      DrawerItems(Icons.explore, 'My Feed'),
+      DrawerItems(Icons.bookmark_added, 'Bookmark'),
+      DrawerItems(Icons.speaker_notes, 'Trending'),
       // DrawerItems(Icons.book_rounded, 'EDITORS PICK'),
     ];
 
-    return Container(
-      width: 350,
+    return Container(      
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       color: theme.scaffoldBackgroundColor,
       child: Drawer(
         child: Container(
+          padding: EdgeInsets.only(top: 30),
           color: theme.scaffoldBackgroundColor,
-          child: ListView(
+          child: Column(
             children: [
-              //  Padding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              //     child: Align(
-              //       alignment: Alignment.topLeft,
-              //       child: IconButton(
-              //           icon: Icon(
-              //             Icons.close,
-              //             color: theme.primaryColor,
-              //             size: 20,
-              //           ),
-              //           onPressed: () {
-              //             Navigator.pop(context);
-              //           }),
-              //     ),
-              //   ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 30),
@@ -159,116 +144,97 @@ class AppDrawer extends StatelessWidget {
                       );
                     }),
               ),
-              SizedBox(
-                height: 8,
-              ),
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                    color: theme.scaffoldBackgroundColor,
-                    borderRadius:
-                        BorderRadius.only(topLeft: Radius.circular(30))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Topics',
-                        style:
-                            theme.textTheme.titleMedium!.copyWith(fontSize: 16),
+         
+             Container(
+              padding: const EdgeInsets.only(left: 16.0, top: 25.0),
+               child: Align(
+                alignment: Alignment.topLeft,
+                           child: Text(
+                          'Topics',
+                          style:
+                              theme.textTheme.titleMedium!.copyWith(fontSize: 16),
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.48,
-                      child: StreamBuilder<List<TopicDetails>>(
-                          stream: topicBloc.getAllTopics(),
-                          builder: (context, snapshot) {
-                            switch (snapshot.connectionState) {
-                              case ConnectionState.none:
-                              case ConnectionState.waiting:
-                              case ConnectionState.active:
-                                return Center(
-                                    child: SizedBox(
-                                  width: 25,
-                                  height: 25,
-                                  child: CircularProgressIndicator(
-                                    color: theme.primaryColor,
-                                    strokeWidth: 2.6,
-                                  ),
-                                ));
-                              case ConnectionState.done:
-                                if (snapshot.hasError)
-                                  return Text('Err: ${snapshot.error}');
-                                List<TopicDetails> topicList = snapshot.data!;
-                                List<SuggestedTopics>? listOfSuggestedTopics =
-                                    [];
-                                topicList.forEach((element) {
-                                  listOfSuggestedTopics.add(SuggestedTopics(
-                                      image: '',
-                                      title: element.title,
-                                      code: element.code!));
-                                });
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: listOfSuggestedTopics.length,
-                                    itemBuilder: (context, index) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          RootInjectorWidget.of(context)
-                                                  ?.applicationBloc
-                                                  .applicationState
-                                                  .selectedTopic =
-                                              listOfSuggestedTopics[index];
-                                          Navigator.pushNamed(
-                                              context, PageRoutes.news,
-                                              arguments:
+             ),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.only(right: 16.0, top: 15.0,  left: 16.0, bottom: 20.0),
+                  child: StreamBuilder<List<TopicDetails>>(
+                            stream: topicBloc.getAllTopics(),
+                            builder: (context, snapshot) {
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.none:
+                                case ConnectionState.waiting:
+                                case ConnectionState.active:
+                                  return Center(
+                                      child: SizedBox(
+                                    width: 25,
+                                    height: 25,
+                                    child: CircularProgressIndicator(
+                                      color: theme.primaryColor,
+                                      strokeWidth: 2.6,
+                                    ),
+                                  ));
+                                case ConnectionState.done:
+                                  if (snapshot.hasError)
+                                    return Text('Err: ${snapshot.error}');
+                                  List<TopicDetails> topicList = snapshot.data!;
+                                  List<SuggestedTopics>? listOfSuggestedTopics =
+                                      [];
+                                  topicList.forEach((element) {
+                                    listOfSuggestedTopics.add(SuggestedTopics(
+                                        image: '',
+                                        title: element.title,
+                                        code: element.code!));
+                                  });
+                                  return ListView.builder(   
+                                                        shrinkWrap: true,                                   
+                                      itemCount: listOfSuggestedTopics.length,
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            RootInjectorWidget.of(context)
+                                                    ?.applicationBloc
+                                                    .applicationState
+                                                    .selectedTopic =
+                                                listOfSuggestedTopics[index];
+                                            Navigator.pushNamed(
+                                                context, PageRoutes.news,
+                                                arguments:
+                                                    listOfSuggestedTopics[index]
+                                                        .title);
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(10),
+                                            margin: EdgeInsets.all(6),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                color:
+                                                    theme.colorScheme.background),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
                                                   listOfSuggestedTopics[index]
-                                                      .title);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(10),
-                                          margin: EdgeInsets.all(6),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                              color:
-                                                  theme.colorScheme.background),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                listOfSuggestedTopics[index]
-                                                    .title!,
-                                                style: theme
-                                                    .textTheme.titleMedium!
-                                                    .copyWith(fontSize: 14.0),
-                                              ),
-                                            ],
+                                                      .title!,
+                                                  style: theme
+                                                      .textTheme.titleMedium!
+                                                      .copyWith(fontSize: 14.0),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    });
-                            }
-                          }),
-                    )
-                  ],
+                                        );
+                                      });
+                              }
+                            }),
                 ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(
-              //       vertical: 16, horizontal: 16.0),
-              //   child: BuyThisApp.button(
-              //     'qunews',
-              //     'http://bit.ly/cc_flutter_qunews',
-              //     color: Theme.of(context).primaryColor,
-              //   ),
-              // ),
-              // BuyThisApp.developerRow(
-              //     Colors.transparent, Theme.of(context).primaryColor),
+              )
+              ,
             ],
           ),
         ),

@@ -1,5 +1,3 @@
-import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
-import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
@@ -20,8 +18,7 @@ class _VerificationUIState extends State<VerificationUI> {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var routeArgs = ModalRoute.of(context)!.settings.arguments as String;
-    return FadedSlideAnimation(
-      Scaffold(
+    return Scaffold(
          backgroundColor: Colors.white,
         body: Container(
           height: MediaQuery.of(context).size.height,
@@ -67,7 +64,8 @@ class _VerificationUIState extends State<VerificationUI> {
                 ),
               ),
             ),
-            Expanded(
+            Flexible(
+              fit: FlexFit.loose,
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20.0),
@@ -79,35 +77,32 @@ class _VerificationUIState extends State<VerificationUI> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: CustomButton(
-                textColor: Theme.of(context).colorScheme.background,
-                text: getTranslationOf('get_started'),
-                onTap: () async {
-                  final config =
-                  await ApplicationBloc.getAppConfiguration('dev');
-                  if (config.features!.awsCognito!) {
-                    final result = await RootInjectorWidget.of(context)!
-                        .authService
-                        .confirmUser(routeArgs.toString(),
-                        otpInputController.text);
-                    if (result!.isSignUpComplete) {
+            Column(
+              children: [
+                CustomButton(
+                  textColor: Theme.of(context).colorScheme.background,
+                  text: getTranslationOf('get_started'),
+                  onTap: () async {
+                    final config =
+                    await ApplicationBloc.getAppConfiguration('dev');
+                    if (config.features!.awsCognito!) {
+                      final result = await RootInjectorWidget.of(context)!
+                          .authService
+                          .confirmUser(routeArgs.toString(),
+                          otpInputController.text);
+                      if (result!.isSignUpComplete) {
+                        Navigator.pushNamed(context, PageRoutes.news);
+                      }
+                    } else {
                       Navigator.pushNamed(context, PageRoutes.news);
                     }
-                  } else {
-                    Navigator.pushNamed(context, PageRoutes.news);
-                  }
-                },
-              ),
+                  },
+                ),
+              ],
             ),
           ],
             ),
         ),
-      ),
-      beginOffset: Offset(0, 0.3),
-      endOffset: Offset(0, 0),
-      slideCurve: Curves.linearToEaseOut,
-    );
+      );
   }
 }

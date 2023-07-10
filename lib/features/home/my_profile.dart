@@ -1,5 +1,3 @@
-import 'package:animation_wrappers/Animations/faded_scale_animation.dart';
-import 'package:animation_wrappers/Animations/faded_slide_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
@@ -21,8 +19,7 @@ class _MyProfileState extends State<MyProfile> {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: theme.primaryColor),
       ),
-      body: FadedSlideAnimation(
-        Container(
+      body: Container(
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
@@ -70,15 +67,12 @@ class _MyProfileState extends State<MyProfile> {
                       child: Stack(
                         clipBehavior: Clip.none,
                         children: [
-                          FadedScaleAnimation(
-                            CircleAvatar(
+                          CircleAvatar(
                               child: Image.asset(
                                 'assets/profiles/change profile pic copy 3-1.png',
                               ),
                               radius: 30,
                             ),
-                            durationInMilliseconds: 400,
-                          ),
                           PositionedDirectional(
                             start: 100,
                             top: 48,
@@ -156,12 +150,6 @@ class _MyProfileState extends State<MyProfile> {
             ],
           ),
         ),
-        beginOffset: Offset(0, 0.1),
-        endOffset: Offset(0, 0),
-        slideCurve: Curves.linearToEaseOut,
-        slideDurationInMilliseconds: 10,
-        durationInMilliseconds: 10,
-      ),
     );
   }
 }

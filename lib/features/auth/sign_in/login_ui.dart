@@ -1,7 +1,5 @@
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:animation_wrappers/animation_wrappers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
 import 'package:tek_capsule/widgets/action_indicator.dart';
@@ -9,7 +7,6 @@ import 'package:tek_capsule/widgets/custom_button.dart';
 import 'package:tek_capsule/widgets/entry_field.dart';
 import 'package:tek_capsule/core/routes/routes.dart';
 import 'package:tek_capsule/core/locale/locales.dart';
-import 'package:tek_capsule/infrastructure/service/auth_service/auth_service.dart';
 
 class SignInUI extends StatefulWidget {
   @override
@@ -58,8 +55,7 @@ class _SignInUIState extends State<SignInUI> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: FadedSlideAnimation(
-        Column(
+      body: Column(
           mainAxisSize: MainAxisSize.max,
             children: [
             Container(
@@ -201,10 +197,6 @@ class _SignInUIState extends State<SignInUI> {
           )
           ],
         ),
-        beginOffset: Offset(0, 0.3),
-        endOffset: Offset(0, 0),
-        slideCurve: Curves.linearToEaseOut,
-      ),
     );
   }
 
