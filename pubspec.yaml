@@ -19,6 +19,10 @@ dependencies:
   rxdart: ^0.27.7
   http: ^0.13.5
   webview_flutter: ^4.2.1
+  hive: ^2.2.3
+  path_provider: ^2.0.15
+  hive_flutter: ^1.1.0
+  
 
 
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,7 @@ class ApplicationBloc {
   late GlobalKey<ScaffoldMessengerState> globalscaffoldKey;
   late StreamController<ApplicationEvent> _appEventController;
   late BehaviorSubject<UserModel> _userData;
+  bool isInternetActive = false;
 
   Sink<ApplicationEvent> get appEventSink => _appEventController.sink;
 
@@ -31,7 +33,8 @@ class ApplicationBloc {
     applicationState.selectedCapsuleType = CapsuleType.NONE;
     _appEventController = StreamController<ApplicationEvent>();
     _userData = BehaviorSubject<UserModel>();
-    _appEventController.stream.listen(_mapEventToState);
+    _appEventController.stream.listen(_mapEventToState);    
+    checkInternetConnection();
   }
 
   static Future<AppConfig> getAppConfiguration(String? env) async {
@@ -68,5 +71,16 @@ class ApplicationBloc {
   dispose() {
     _userData.close();
     _appEventController.close();
+  }
+
+  checkInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        isInternetActive = true;
+      }
+    } on SocketException catch (_) {
+      isInternetActive = false;
+    }
   }
 }

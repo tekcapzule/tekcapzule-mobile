@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:tek_capsule/business_logic/application_bloc.dart';
 import 'package:tek_capsule/business_logic/capsule_bloc.dart';
 import 'package:tek_capsule/business_logic/event/application_events.dart';
 import 'package:tek_capsule/business_logic/widget/root_injector_widget.dart';
@@ -43,92 +44,92 @@ class _NewsComponentState extends State<NewsComponent> {
             color: theme.primaryColor,
           ),
           child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    final scaffoldkey = RootInjectorWidget.of(context)!
-                        .applicationBloc
-                        .globalscaffoldKey;
-                    final scaffoldState = scaffoldkey.currentState;
-                    final selectedCapsuleData = RootInjectorWidget.of(context)!
-                        .applicationBloc
-                        .applicationState
-                        .selectedCapsule!;
-                    RootInjectorWidget.of(context)!
-                        .applicationBloc
-                        .appEventSink
-                        .add(BookmarkEvent(
-                            isSave: true,
-                            bloc: capsuleBloc,
-                            capsuleDetails: selectedCapsuleData));
-                    if (scaffoldState != null) {
-                      scaffoldState.showSnackBar(ActionIndicator()
-                          .getSnackBar(context, 'Page Bookmarked!'));
-                    }
-                  },
-                  child: StreamBuilder<bool>(
-                      stream: capsuleBloc.getCapsuleBookmark,
-                      builder: (context, snapshot) {
-                        return Icon(
-                          snapshot.hasData && snapshot.data!
-                              ? Icons.bookmark_added
-                              : Icons.bookmark_add_outlined,
-                          size: 25,
-                          color: theme.colorScheme.background,
-                        );
-                      }),
-                ),
-                // GestureDetector(
-                //   onTap: () {
-                //     setState(() {
-                //       react = !react;
-                //     });
-                //   },
-                //   child: Text(
-                //     '  ' + getTranslationOf('react')!,
-                //     style: theme.textTheme.caption!.copyWith(
-                //       color: theme.backgroundColor,
-                //     ),
-                //   ),
-                // ),
-                Icon(
-                  Icons.thumb_up_alt_outlined,
-                  color: theme.colorScheme.background,
-                  size: 25,
-                ),
-                // Text(
-                //   '  ' + getTranslationOf('comment')!,
-                //   style: theme.textTheme.caption!.copyWith(
-                //     color: theme.backgroundColor,
-                //   ),
-                // ),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  final scaffoldkey = RootInjectorWidget.of(context)!
+                      .applicationBloc
+                      .globalscaffoldKey;
+                  final scaffoldState = scaffoldkey.currentState;
+                  final selectedCapsuleData = RootInjectorWidget.of(context)!
+                      .applicationBloc
+                      .applicationState
+                      .selectedCapsule!;
+                  RootInjectorWidget.of(context)!
+                      .applicationBloc
+                      .appEventSink
+                      .add(BookmarkEvent(
+                          isSave: true,
+                          bloc: capsuleBloc,
+                          capsuleDetails: selectedCapsuleData));
+                  if (scaffoldState != null) {
+                    scaffoldState.showSnackBar(ActionIndicator()
+                        .getSnackBar(context, 'Page Bookmarked!'));
+                  }
+                },
+                child: StreamBuilder<bool>(
+                    stream: capsuleBloc.getCapsuleBookmark,
+                    builder: (context, snapshot) {
+                      return Icon(
+                        snapshot.hasData && snapshot.data!
+                            ? Icons.bookmark_added
+                            : Icons.bookmark_add_outlined,
+                        size: 25,
+                        color: theme.colorScheme.background,
+                      );
+                    }),
+              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     setState(() {
+              //       react = !react;
+              //     });
+              //   },
+              //   child: Text(
+              //     '  ' + getTranslationOf('react')!,
+              //     style: theme.textTheme.caption!.copyWith(
+              //       color: theme.backgroundColor,
+              //     ),
+              //   ),
+              // ),
+              Icon(
+                Icons.thumb_up_alt_outlined,
+                color: theme.colorScheme.background,
+                size: 25,
+              ),
+              // Text(
+              //   '  ' + getTranslationOf('comment')!,
+              //   style: theme.textTheme.caption!.copyWith(
+              //     color: theme.backgroundColor,
+              //   ),
+              // ),
 
-                // GestureDetector(
-                //   onTap: () {
-                //     setState(() {
-                //       bookmark = !bookmark;
-                //     });
-                //   },
-                //   child: bookmark == true
-                //       ? Icon(
-                //           Icons.bookmark,
-                //           size: 20,
-                //           color: theme.backgroundColor,
-                //         )
-                //       : Icon(
-                //           Icons.bookmark_border,
-                //           size: 20,
-                //           color: theme.backgroundColor,
-                //         ),
-                // ),
-                Icon(
-                  Icons.file_upload_outlined,
-                  color: theme.colorScheme.background,
-                  size: 25,
-                ),
-              ],
-            ),
+              // GestureDetector(
+              //   onTap: () {
+              //     setState(() {
+              //       bookmark = !bookmark;
+              //     });
+              //   },
+              //   child: bookmark == true
+              //       ? Icon(
+              //           Icons.bookmark,
+              //           size: 20,
+              //           color: theme.backgroundColor,
+              //         )
+              //       : Icon(
+              //           Icons.bookmark_border,
+              //           size: 20,
+              //           color: theme.backgroundColor,
+              //         ),
+              // ),
+              Icon(
+                Icons.file_upload_outlined,
+                color: theme.colorScheme.background,
+                size: 25,
+              ),
+            ],
+          ),
         ),
         backgroundColor: theme.colorScheme.background,
         drawer: AppDrawer(),
@@ -139,11 +140,10 @@ class _NewsComponentState extends State<NewsComponent> {
           backgroundColor: Colors.white,
           title: Text(
             widget.title!,
-             style: theme.textTheme.headline6!.copyWith(
-              color: theme.primaryColor,
-              fontSize: 18,
-              fontWeight: FontWeight.bold
-            ),
+            style: theme.textTheme.headline6!.copyWith(
+                color: theme.primaryColor,
+                fontSize: 18,
+                fontWeight: FontWeight.bold),
           ),
         ),
         body: GestureDetector(
@@ -156,7 +156,7 @@ class _NewsComponentState extends State<NewsComponent> {
                 url: renderedCapsule!.resourceUrl!,
                 title: renderedCapsule.title!);
           },
-          child: StreamBuilder<List<CapsuleDetails>>(
+          child: StreamBuilder<List<CapsuleDetails>?>(
               stream: capsuleBloc.getAllCapsules(),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
@@ -183,8 +183,6 @@ class _NewsComponentState extends State<NewsComponent> {
                     if (capsuleDetails.length > 0) {
                       capsuleDetails[0].resourceUrl =
                           'https://www.tekcapsule.com/';
-                      capsuleDetails[1].resourceUrl =
-                          'https://tekcapsule.blog/the-rise-of-artificial-intelligence-exploring-the-benefits-challenges-and-future-implications/';
                       RootInjectorWidget.of(context)!
                           .applicationBloc
                           .applicationState
@@ -194,6 +192,10 @@ class _NewsComponentState extends State<NewsComponent> {
                           scaffoldState.showSnackBar(ActionIndicator()
                               .getSnackBar(context, 'Topics fetched!'));
                         });
+                      }
+                      if (capsuleDetails.length > 1) {
+                        capsuleDetails[1].resourceUrl =
+                            'https://tekcapsule.blog/the-rise-of-artificial-intelligence-exploring-the-benefits-challenges-and-future-implications/';
                       }
                       return getDashBoardFeedWidget(capsuleDetails, theme);
                     } else {
@@ -211,7 +213,7 @@ class _NewsComponentState extends State<NewsComponent> {
   }
 
   void loadWebPage({required String? url, required String? title}) {
-    if (url == null) return;
+    if (url == null || !ApplicationBloc().isInternetActive) return;
     Navigator.push(context,
         CupertinoPageRoute(builder: (context) => FullNews(url, title!)));
   }
@@ -241,7 +243,7 @@ class _NewsComponentState extends State<NewsComponent> {
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
-                            child: Center(child: Text('Error')),
+                            child: Image.asset("assets/vct_verification.png"),
                           );
                         },
                       ),
